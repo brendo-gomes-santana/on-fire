@@ -2,6 +2,7 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useContext } from 'react';
+import { usePathname, useRouter  } from "next/navigation";
 
 import { authContext } from '@/contexts/auth';
 import styled from './styled.module.scss';
@@ -12,12 +13,22 @@ import { LoginUserProps } from '@/utils/types/Auth';
 
 export default function login(){
 
-    const { register, handleSubmit } = useForm<LoginUserProps>();
+    const { register, handleSubmit, reset } = useForm<LoginUserProps>();
+    const pathname = usePathname();
+    const router = useRouter();
 
-    const { Logar } = useContext(authContext);
+    const { Logar,  logado} = useContext(authContext);
 
     const onSubmit: SubmitHandler<LoginUserProps> = (data) => {
-        Logar(data);
+        Logar(data);      
+        reset();
+    }
+
+    
+    if(pathname === '/login'){
+        if(logado){
+            return router.push('/')
+        }
     }
 
     return(
