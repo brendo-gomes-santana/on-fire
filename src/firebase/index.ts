@@ -1,10 +1,10 @@
 
+
 import { initializeApp } from "firebase/app";
 import { getFirestore } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 
 const {
-    NEXT_PUBLIC_API_KEY,
     NEXT_PUBLIC_AUTH_DOMAIN,
     NEXT_PUBLIC_PROJECT_ID,
     NEXT_PUBLIC_STORAGE_BUCKET,
@@ -12,9 +12,8 @@ const {
     NEXT_PUBLIC_APP_ID
 } = process.env
 
-
 const firebaseConfig = {
-    apiKey: NEXT_PUBLIC_API_KEY,
+    apiKey: 'AIzaSyAUMLJyI92EEtdUsiGs3ae72jPtCtw5Alc',
     authDomain: NEXT_PUBLIC_AUTH_DOMAIN,
     projectId: NEXT_PUBLIC_PROJECT_ID,
     storageBucket: NEXT_PUBLIC_STORAGE_BUCKET,
@@ -22,9 +21,10 @@ const firebaseConfig = {
     appId: NEXT_PUBLIC_APP_ID
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app)
+const firebaseApp  = initializeApp(firebaseConfig);
+
+const db = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp)
 
 export {
     db,
