@@ -54,6 +54,7 @@ export default function CarrinhoProvider({ children }: {children: ReactNode}){
 
         // Atualiza o localStorage com o novo estado do carrinho
         localStorage.setItem("@carrinho-onfire", JSON.stringify(carrinho));
+        alert('Cadastrado no carrinho');
     }
 
     function RemoveItem(id: string ){

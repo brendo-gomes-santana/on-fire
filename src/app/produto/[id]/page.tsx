@@ -1,10 +1,17 @@
 
-
+import { Metadata } from "next";
 import Image from "next/image"
 import Quantidade from "@/components/quantidade"
 import ImageTest from '../../../../public/FLYER-CONFERENCIA.png'
 import styled from './styled.module.scss';
 
+
+
+export function generateMetadata({params}: {params: {id: string}}):Metadata{
+    return {
+        title: `On fire | ${params.id}`
+    }
+}
 
 export default function Produto({params}: {params: {id: string}}){
 
