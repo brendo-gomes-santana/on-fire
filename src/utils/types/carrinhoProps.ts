@@ -5,6 +5,8 @@ export interface Carrinho {
     value: number;
     amount: number;
 
+    link?: string
+
 }
 
 export interface CarrinhoContextType {

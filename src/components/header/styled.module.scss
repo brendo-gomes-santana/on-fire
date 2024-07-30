@@ -57,10 +57,19 @@
     justify-content: space-around;
     align-items: center;
     margin: 1em 0;
+
+    transition: 0.2s;
     button{
         background-color: transparent;
         border: none;
         cursor: pointer;
+    }
+    a{
+        color: #fff;
+    }
+
+    &:hover{
+        background-color: rgba(87, 87, 87, 0.13);
     }
 }
 

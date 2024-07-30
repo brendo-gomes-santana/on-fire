@@ -21,12 +21,6 @@ export default function Header() {
 
     const [carrinhoOpen, setCarrinhoOpen] = useState(false);
 
-
-    const styledperso = {
-        transform: 'translateY(0vh)'
-    }
-
-
     function somarCarrinho(carrinho: Carrinho[] | null): number{
         const total = carrinho?.reduce((resultado, quantidade) => {
             return resultado + quantidade.value
@@ -37,6 +31,11 @@ export default function Header() {
         }
 
         return total
+    }
+
+
+    const styledperso = {
+        transform: 'translateY(0vh)'
     }
 
     return (
@@ -55,8 +54,8 @@ export default function Header() {
                         )}
                         {carrinho !== null && carrinho?.map((item) => {
                             return (
-                                <article className={styled.CardCarrinho}>
-                                    <p>{item.name}</p>
+                                <article className={styled.CardCarrinho} key={item.id}>
+                                    <Link href={item.link as string}>{item.name}</Link>
                                     <p>R$ {formatReal(item.value)}</p>
                                     <p>{item.amount}x</p>
                                     <button onClick={() => RemoveItem(item.id)}>
