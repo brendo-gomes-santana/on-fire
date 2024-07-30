@@ -33,10 +33,9 @@
 
 .ContainerValores{
     display: flex;
-    
+
     div{
-        
-        position: relative;
+       
         min-height: 10vh;
 
         p{
@@ -52,25 +51,7 @@
 
         &:first-child{
             flex: 1;
+            position: relative;
         }
-
-        &:last-child{
-            display: flex;
-            flex-direction: column;
-
-            button{
-                height: 50px;
-                width: 200px;
-                border-radius: 13px;
-                border: none;
-                margin: 0.5em 0;
-                cursor: pointer;
-
-                font-size: 15px;
-                font-weight: bold;
-                color: #fff;
-            }
-        }
-
     }
 }
