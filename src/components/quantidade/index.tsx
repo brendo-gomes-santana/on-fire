@@ -19,8 +19,8 @@ export default function Quantidade() {
 
     function handleAdd(){
         AddItem({
-            id: '1111',
-            name: 'Pulseira',
+            id: '15',
+            name: 'Pulseira Onfire 2k24',
             amount: quantidade,
             value: 10000 * quantidade
         })

@@ -3,41 +3,29 @@
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { Carrinho, CarrinhoContextType } from "@/utils/types/carrinhoProps";
 
-
-export const CarrinhoContext = createContext<CarrinhoContextType>({
-    carrinho: null,
-    AddItem: () => {},
-    RemoveItem: () => {}
-});
+export const CarrinhoContext = createContext({} as CarrinhoContextType);
 
 export default function CarrinhoProvider({ children }: {children: ReactNode}){
 
-    const [carrinho, setCarrinho] = useState<Carrinho[] | null>([]);
+    const [carrinho, setCarrinho] = useState<Carrinho[]>([]);
 
-    useEffect(()=> {
+    useEffect(() => {
+       const carrinhoLocalStorageString = localStorage.getItem("@carrinho-onfire");
         
-        const carrinhoLocalStorageString = localStorage.getItem("@carrinho-onfire");
-        
-        if(carrinhoLocalStorageString !== null){
-
+        if (carrinhoLocalStorageString !== null) {
             const CarrinhoJSON: Carrinho[] = JSON.parse(carrinhoLocalStorageString);
-
             setCarrinho(CarrinhoJSON);
-        }else{
+        }else {
             setCarrinho([]);
         }
+    }, []);
 
-    },[])
 
-    function AddItem(item: Carrinho){
-        if (!carrinho) return;
+    function AddItem(item: Carrinho) {
 
-        // Verifica se o item já existe no carrinho com base no ID
         const index = carrinho.findIndex(i => i.id === item.id);
 
         if (index !== -1) {
-
-            // Se o item existe, atualiza suas propriedades
             const novoCarrinho = [...carrinho];
             novoCarrinho[index] = {
                 ...novoCarrinho[index],
@@ -47,25 +35,23 @@ export default function CarrinhoProvider({ children }: {children: ReactNode}){
                 // Adicione outras propriedades conforme necessário
             };
             setCarrinho(novoCarrinho);
+            localStorage.setItem("@carrinho-onfire", JSON.stringify(novoCarrinho));
         } else {
-            // Se o item não existe, adiciona ao carrinho
-            setCarrinho([...carrinho, item]);
+            const novoCarrinho = [...carrinho, item];
+            setCarrinho(novoCarrinho);
+            localStorage.setItem("@carrinho-onfire", JSON.stringify(novoCarrinho));
         }
 
-        // Atualiza o localStorage com o novo estado do carrinho
-        localStorage.setItem("@carrinho-onfire", JSON.stringify(carrinho));
         alert('Cadastrado no carrinho');
     }
 
-    function RemoveItem(id: string ){
-        if (!carrinho) return;
-
+    function RemoveItem(id: string) {
         const novoCarrinho = carrinho.filter(item => item.id !== id);
         setCarrinho(novoCarrinho);
-
         localStorage.setItem("@carrinho-onfire", JSON.stringify(novoCarrinho));
     }
-    return(
+
+    return (
         <CarrinhoContext.Provider
             value={{
                 carrinho,
@@ -75,5 +61,5 @@ export default function CarrinhoProvider({ children }: {children: ReactNode}){
         >
             {children}
         </CarrinhoContext.Provider>
-    )
+    );
 }

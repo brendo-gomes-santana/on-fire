@@ -1,3 +1,69 @@
+.ContainerBase{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    background-color: transparent;
+    z-index: 500;
+
+    transform: translateY(-100vh);
+    transition: 0.5s;
+}
+
+.ContainerProdutos {
+
+    transform: translateY(-100vh);
+    transition: 0.5s;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #000;
+
+    color: #fff;
+    
+    width: 500px;
+    height: 100vh;
+    z-index: 1000;
+    
+    padding: 1em;
+
+    h1 {
+        color: #f25c05;
+        text-align: center;
+    }
+}
+
+.ContainerbaseProdutos{
+    margin: 0.5em 0;
+    overflow:auto; 
+    height: 80vh;
+
+    &::-webkit-scrollbar{
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb{
+        background-color: #f25c05;
+        border-radius: 13px;
+    }
+}
+
+
+.CardCarrinho{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1em 0;
+    button{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+}
+
 .container {
     background-color: #000;
     color: #fff;
@@ -13,7 +79,7 @@
 }
 
 
-.logo{
+.logo {
     width: 120px;
     height: 120px;
 }
@@ -24,27 +90,68 @@
     display: flex;
     align-items: center;
 
-    a{
+    a {
         padding: 0 1em;
         font-size: 18px;
         color: #fff;
     }
 }
 
-.container_comprar{
-   
+.container_comprar {
+
     position: relative;
     padding-left: 1em;
 
 
-    button{
+    button {
         background: transparent;
         border: none;
         cursor: pointer;
-    }    
-    span{
+    }
+
+    span {
         position: absolute;
         top: -15px;
         right: -10px;
+
+        color: #fff;
+    }
+}
+
+
+.containerFechaProdutos{
+    position: absolute;
+
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 10vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+
+    a{
+        padding: 1.5vh 50px;
+        border: none;
+
+        border-radius: 13px;
+
+        font-weight: bold;
+
+        color: #fff;
+        background-color: #f25c05;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+
+        &:hover{
+            color: #f25c05;
+            background-color: transparent;
+            border: 1px solid #f25c05;
+        }
+
     }
 }

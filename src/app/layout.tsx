@@ -19,11 +19,11 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
-        <Header />
         <CarrinhoProvider>
+          <Header />
           {children}
         </CarrinhoProvider>
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );
