@@ -1,0 +1,76 @@
+.container{
+    min-height: 80vh;
+
+    padding: 3em 7em;
+}
+
+.ContainerInformacoes {
+    display: flex;
+
+    img{
+        width: 500px;
+        height: 400px;
+        margin: 0 5em;
+        border-radius: 13px;
+    }
+}
+
+.Informacoes{
+    flex: 1;
+    color: #fff;
+
+    h1{
+        font-size: 30px;
+    }
+    h2{
+        font-size: 18px;
+    }
+
+    hr{
+        margin: 1em 0;
+    }
+}
+
+.ContainerValores{
+    display: flex;
+    
+    div{
+        
+        position: relative;
+        min-height: 10vh;
+
+        p{
+            font-size: 50px;
+        }
+
+        span{
+            position: absolute;
+            bottom: 0;
+
+            color: #828282;
+        }
+
+        &:first-child{
+            flex: 1;
+        }
+
+        &:last-child{
+            display: flex;
+            flex-direction: column;
+
+            button{
+                height: 50px;
+                width: 200px;
+                border-radius: 13px;
+                border: none;
+                margin: 0.5em 0;
+                cursor: pointer;
+
+                font-size: 15px;
+                font-weight: bold;
+                color: #fff;
+            }
+        }
+
+    }
+}

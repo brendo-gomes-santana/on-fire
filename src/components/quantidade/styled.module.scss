@@ -1,0 +1,38 @@
+.Container{
+    position: relative;
+
+
+    select{
+        position: absolute;
+        width: 100%;
+        height: 38px;
+
+        border-radius: 13px;
+        border: none;
+        padding: 0 1em;
+        color: transparent;
+        outline: none;
+        background-color: transparent;
+        z-index: 100;
+        option{
+            color: #000;  
+        }
+    }
+
+
+    div{
+        z-index: 50;
+        position: absolute;
+        font-size: 15px;
+        color: #000;
+
+        width: 100%;
+        min-height: 38px;
+        background-color: #fff;
+        border-radius: 13px;
+
+        display: flex;
+        align-items: center;
+        padding: 0 0.5em;
+    }
+}
