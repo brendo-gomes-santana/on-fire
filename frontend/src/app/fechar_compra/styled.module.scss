@@ -1,0 +1,80 @@
+.container {
+    min-height: 80vh;
+    padding: 3em 7em;
+
+    h1 {
+        color: #f25c05;
+    }
+}
+
+.form{
+    margin: 1em auto;
+
+    width: 100%;
+    max-width: 720px;
+
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.Input{
+    width: 100%;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 1em;
+    span {
+        color: #9E0000;
+        margin-left: 5px;
+    }
+    input{
+        display: block;
+        width: 100%;
+        height: 50px;
+
+
+        background: transparent;
+        border: 1px solid #f25c05;
+        border-radius: 5px;
+
+        padding: 0 1em;
+        color: #fff;
+
+        outline: none;
+    }
+}
+
+.ContainerProdutos{
+
+    display: flex;
+    padding-top: 2vh;
+    flex-wrap: wrap;
+}
+
+
+.ContainerValores{
+    width: 100%;
+    max-width: 400px;
+
+
+    button{
+        width: 100%;
+        height: 50px;
+
+        background-color: #f25c05;
+        color: #fff;
+        border-radius: 13px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+}
+
+.dados{
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1em;
+    color: #fff;
+}

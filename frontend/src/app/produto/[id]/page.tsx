@@ -2,7 +2,7 @@
 import { Metadata } from "next";
 import Image from "next/image"
 import Quantidade from "@/components/quantidade"
-import ImageTest from '../../../../public/FLYER-CONFERENCIA.png'
+import ImageTest from '../../../../public/PERFIL.png'
 import styled from './styled.module.scss';
 
 
@@ -26,7 +26,7 @@ export default function Produto({params}: {params: {id: string}}){
 
                     <div className={styled.ContainerValores}>
                         <div>
-                            <p id="valor">R$ 100,00</p>
+                            <p id="valor">R$ 20,20</p>
                             <span>quantidade disponivel: 10000</span>
                         </div>
                         <Quantidade />

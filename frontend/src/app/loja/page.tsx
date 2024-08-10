@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Card from '@/components/Card';
 import styled from './styled.module.scss';
 
-import logo from '../../../public/FLYER-CONFERENCIA.png'
+import logo from '../../../public/PERFIL.png'
 
 
 
@@ -22,7 +22,7 @@ export default function Loja(){
                 <Card
                     name='Pulseira Conferencia 2k24'
                     image={logo}
-                    value={10050}
+                    value={2020}
                     id='numbeasiun'
                 />
             </section>

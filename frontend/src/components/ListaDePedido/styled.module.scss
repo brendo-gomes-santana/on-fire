@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    flex-direction: column; 
+    flex: 1;
+
+    padding: 0 1em;
+}
+
+.item{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #fff;
+
+    a{
+        color: #fff;
+    }
+}
+
+.containerControle{
+    p{
+        &:last-child{
+            color: #B12704;
+        }
+    }
+}
