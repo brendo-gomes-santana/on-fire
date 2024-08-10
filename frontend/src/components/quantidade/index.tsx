@@ -6,8 +6,11 @@ import { useState, ChangeEvent } from "react"
 import styled from './styled.module.scss'
 import { CarrinhoContext } from "@/contexts/carrinho";
 
+import { InformacoesProps } from "@/utils/types/CardProps"
 
-export default function Quantidade() {
+export default function Quantidade({produto}: {
+    produto: InformacoesProps
+}) {
 
     const router = useRouter();
     const [quantidade, setQuantidade] = useState(1);
@@ -23,22 +26,22 @@ export default function Quantidade() {
 
     function handleAdd(){
         AddItem({
-            id: '15',
-            name: 'Pulseira Onfire 2k24',
+            id: produto.id,
+            name: produto.name,
             amount: quantidade,
-            value: 10000 * quantidade,
-            link: `/produto/${123}`
+            value: produto.value * quantidade,
+            link: `/produto/${produto.id}`
         })
     }
 
 
     function FecharComprar(){
         AddItem({
-            id: '1500',
-            name: 'Pulseira Onfire 2k24',
+            id: produto.id,
+            name: produto.name,
             amount: quantidade,
-            value: 10000 * quantidade,
-            link: `/produto/${123}`
+            value: produto.value * quantidade,
+            link: `/produto/${produto.id}`
         })
 
         router.push('/fechar_compra')

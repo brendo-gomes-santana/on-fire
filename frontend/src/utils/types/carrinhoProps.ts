@@ -1,5 +1,5 @@
 export interface Carrinho {
-    id: string;
+    id: string | number;
     
     name: string;
     value: number;

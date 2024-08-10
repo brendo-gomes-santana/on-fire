@@ -1,35 +1,59 @@
 
 import { Metadata } from "next";
 import Image from "next/image"
+import { redirect } from "next/navigation";
+
 import Quantidade from "@/components/quantidade"
-import ImageTest from '../../../../public/PERFIL.png'
 import styled from './styled.module.scss';
 
+import { Produtos } from "@/utils/Produtos";
+import { InformacoesProps } from "@/utils/types/CardProps";
+import formatReal from "@/utils/funcoes/FormatReal";
 
+export function generateMetadata({params}: {params: {id: string | number}}):Metadata{
 
-export function generateMetadata({params}: {params: {id: string}}):Metadata{
+    const produto = Produtos.find((item) => item.id == params.id);
+
     return {
-        title: `On fire | ${params.id}`
+        title: `On fire | ${produto?.name}`
     }
+}
+
+
+function getProduto(id: string | number):InformacoesProps | null{
+    const produto = Produtos.find((item) => item.id == id);
+
+
+    if(!produto?.id){
+        return null
+    }
+    return produto
 }
 
 export default function Produto({params}: {params: {id: string}}){
 
+    const produto = getProduto(params.id)
+
+
+    if(!produto){
+        redirect('/loja')
+    }
+
     return(
         <section className={styled.container}>
             <article className={styled.ContainerInformacoes}>
-                <Image src={ImageTest} alt="testando" />
+                <Image src={produto?.cap} alt="testando" />
                 <div className={styled.Informacoes}>
-                    <h1>Pulseira Conferencia 2k24</h1>
-                    <h2>Código do produto: 12334545</h2>
+                    <h1>{produto?.name}</h1>
+                    <h2>Código do produto: {params.id}</h2>
                     <hr />
 
                     <div className={styled.ContainerValores}>
                         <div>
-                            <p id="valor">R$ 20,20</p>
+                            <p id="valor">R$ {formatReal(produto?.value)}</p>
                             <span>quantidade disponivel: 10000</span>
                         </div>
-                        <Quantidade />
+                        <Quantidade produto={produto}/>
                     </div>
                 </div>
             </article>

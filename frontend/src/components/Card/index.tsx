@@ -8,13 +8,13 @@ import Link from "next/link";
 export default function Card({
     name,
     value,
-    image,
+    cap,
     id
 }: InformacoesProps){
     return(
         <article className={styled.container}>
             <Image
-                src={image}
+                src={cap}
                 alt={`Imagem do produto ${name}`}
             />
             <Link href={`/produto/${id}`}>{name}</Link>
