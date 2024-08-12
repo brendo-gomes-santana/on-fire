@@ -46,7 +46,7 @@ class PagamentoService {
                 },
                 requestOptions: { idempotencyKey: id }
             });
-            
+            console.log('passou aqui')
             // Cria ou atualiza o documento no Firestore
             const docRef = db.collection('compradores').doc(id);
             await docRef.set({
