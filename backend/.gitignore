@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+secury.json
 
 # next.js
 /.next/
