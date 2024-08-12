@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from "react";
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 import styled from './styled.module.scss';
 import ListaDeprodutos from '@/components/ListaDePedido';
@@ -11,7 +12,7 @@ import ListaDeprodutos from '@/components/ListaDePedido';
 import { CarrinhoContext } from "@/contexts/carrinho";
 import { Carrinho } from '@/utils/types/carrinhoProps';
 import formatReal from '@/utils/funcoes/FormatReal';
-
+import formatEnvio from "@/utils/funcoes/FormatEnvio";
 
 export default function Fechar_comprar() {
 
@@ -34,26 +35,35 @@ export default function Fechar_comprar() {
         })()
     },[])
 
-    function onSumit(data: any) {
-
-        const UserLocalStorageString = localStorage.getItem("@form");
-
-        if (UserLocalStorageString !== null || UserLocalStorageString !== undefined) {
-
-            localStorage.setItem('@form', JSON.stringify({
-                ...data,
-                parte_da_visao: partedaVisao
-            }))
-            
-            router.push('/pix');
-        } else {
-            localStorage.removeItem('@form');
+    async function onSumit(data: any) {
+        const ComVirgula = formatReal(carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0))
+        const body = {
+            ...data,
+            valor: formatEnvio(ComVirgula),
+            descricao: `${
+                carrinho?.map((item) => (
+                    `${item.amount}x - ${item.name}\n`
+                ))[0]}`,
+            visao: partedaVisao
         }
+
+
+        try{
+           const response = await axios.post(`${process.env.NEXT_PUBLIC_ROUTER_API}/v1/pagamento`, body);
+           
+            //FUTURAMENTE - COLOCO qr_code_base64
+
+           window.location.href = response.data.point_of_interaction.transaction_data.ticket_url;
+
+        }catch(err){
+            console.log(err);
+        }
+        
     }
     if(carregando){
         return(
             <div>
-                Carregando
+                Carregando...
             </div>
         )
     }
@@ -68,6 +78,16 @@ export default function Fechar_comprar() {
                         <input type="text"
                             placeholder="Digite o nome completo"
                             {...register('nome', {
+                                required: true
+                            })}
+                        />
+                    </label>
+                    <label className={styled.Input}>
+                        Email
+                        <span>*</span>
+                        <input type="email"
+                            placeholder="Digite seu email"
+                            {...register('email', {
                                 required: true
                             })}
                         />
@@ -102,7 +122,7 @@ export default function Fechar_comprar() {
                                 Qual sua igreja?
                                 <span>*</span>
                                 <select
-                                    {...register('qual_igreja')}>
+                                    {...register('igreja')}>
                                     <option value="">Selecione</option>
                                     <option value="Sede">Sede</option>
                                     <option value="Setorial">Setorial</option>
