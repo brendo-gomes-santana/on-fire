@@ -1,11 +1,12 @@
 'use client'
 
 import { redirect } from 'next/navigation';
+import { useContext, useState } from "react";
+import { useForm } from 'react-hook-form';
 
 import styled from './styled.module.scss';
 import ListaDeprodutos from '@/components/ListaDePedido';
 
-import { useContext } from "react";
 import { CarrinhoContext } from "@/contexts/carrinho";
 import { Carrinho } from '@/utils/types/carrinhoProps';
 import formatReal from '@/utils/funcoes/FormatReal';
@@ -13,15 +14,23 @@ import formatReal from '@/utils/funcoes/FormatReal';
 export default function Fechar_comprar() {
 
     const { carrinho } = useContext(CarrinhoContext)
+    const [partedaVisao, setParteDaVisao] = useState('sim')
 
-    if(carrinho === null){
+    const { register, handleSubmit } = useForm();
+
+    if (carrinho === null) {
         redirect('/loja')
     }
 
+
+
+    function handleCadastre(data: any) {
+
+    }
     return (
         <section className={styled.container}>
             <h1>FINALIZANDO A COMPRAR</h1>
-            <form className={styled.form}>
+            <form className={styled.form} onSubmit={handleSubmit(handleCadastre)}>
                 <label className={styled.Input}>
                     Nome
                     <span>*</span>
@@ -30,12 +39,41 @@ export default function Fechar_comprar() {
                     />
                 </label>
                 <label className={styled.Input}>
-                    Numero para contato
+                    Número para contato
                     <span>*</span>
                     <input type="text"
                         placeholder="Somente os números"
                     />
                 </label>
+                <label className={styled.Input}>
+                    Você é discipulo da visão celular M12?
+                    <select value={partedaVisao} onChange={value => setParteDaVisao(value.target.value)}>
+                        <option value="sim">sim</option>
+                        <option value="não">não</option>
+                    </select>
+                </label>
+                {partedaVisao === 'sim' && (
+                    <>
+                        <label className={styled.Input}>
+                            Nome do líder
+                            <span>*</span>
+                            <input type="text"
+                                placeholder="Somente os números"
+                            />
+                        </label>
+                        <label className={styled.Input}>
+                            Nome do líder
+                            <span>*</span>
+                            <select>
+                                <option>Selecione</option>
+                                <option>Sede</option>
+                                <option>Setorial</option>
+                                <option>Outros</option>
+                            </select>
+                        </label>
+                    </>
+                )}
+
             </form>
             <hr />
             <h2
@@ -56,7 +94,7 @@ export default function Fechar_comprar() {
                     <div className={styled.dados}>
                         <label>Frete</label>
                         <label>R$
-                           00,00
+                            00,00
                         </label>
 
                     </div>

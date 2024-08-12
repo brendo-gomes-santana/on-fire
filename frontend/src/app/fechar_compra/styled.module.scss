@@ -28,7 +28,7 @@
         color: #9E0000;
         margin-left: 5px;
     }
-    input{
+    input, select{
         display: block;
         width: 100%;
         height: 50px;
@@ -42,6 +42,10 @@
         color: #fff;
 
         outline: none;
+
+        option{
+            color: #000;
+        }
     }
 }
 
