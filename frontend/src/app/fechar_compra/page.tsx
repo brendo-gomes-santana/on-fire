@@ -19,6 +19,7 @@ export default function Fechar_comprar() {
     const router = useRouter();
 
     const [carregando, setCarregando] = useState(true);
+    const [request, setRequest] = useState(false);
 
     const { carrinho } = useContext(CarrinhoContext)
     const [partedaVisao, setParteDaVisao] = useState('não')
@@ -26,42 +27,46 @@ export default function Fechar_comprar() {
     const { register, handleSubmit } = useForm();
 
     useEffect(() => {
-        (()=> {
-            if(carrinho?.length === 0){
+        (() => {
+            if (carrinho?.length === 0) {
                 router.push('/loja');
-            
+
             }
             setCarregando(false);
         })()
-    },[])
+    }, [])
 
     async function onSumit(data: any) {
+
+        setRequest(true);
+
         const ComVirgula = formatReal(carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0))
         const body = {
             ...data,
             valor: formatEnvio(ComVirgula),
-            descricao: `${
-                carrinho?.map((item) => (
-                    `${item.amount}x - ${item.name}\n`
-                ))[0]}`,
+            descricao: `${carrinho?.map((item) => (
+                `${item.amount}x - ${item.name}\n`
+            ))[0]}`,
             visao: partedaVisao
         }
 
 
-        try{
-           const response = await axios.post(`${process.env.NEXT_PUBLIC_ROUTER_API}/v1/pagamento`, body);
-           
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_ROUTER_API}/v1/pagamento`, body);
+
             //FUTURAMENTE - COLOCO qr_code_base64
+            localStorage.removeItem('@carrinho-onfire')
+            window.location.href = response.data.point_of_interaction.transaction_data.ticket_url;
 
-           window.location.href = response.data.point_of_interaction.transaction_data.ticket_url;
-
-        }catch(err){
+        } catch (err) {
             console.log(err);
+        } finally {
+            setRequest(false);
         }
-        
+
     }
-    if(carregando){
-        return(
+    if (carregando) {
+        return (
             <div>
                 Carregando...
             </div>
@@ -77,6 +82,7 @@ export default function Fechar_comprar() {
                         <span>*</span>
                         <input type="text"
                             placeholder="Digite o nome completo"
+                            disabled={request}
                             {...register('nome', {
                                 required: true
                             })}
@@ -87,6 +93,7 @@ export default function Fechar_comprar() {
                         <span>*</span>
                         <input type="email"
                             placeholder="Digite seu email"
+                            disabled={request}
                             {...register('email', {
                                 required: true
                             })}
@@ -96,6 +103,7 @@ export default function Fechar_comprar() {
                         Número para contato
                         <span>*</span>
                         <input type="text"
+                            disabled={request}
                             placeholder="Somente os números"
                             {...register('contato')}
                         />
@@ -103,7 +111,10 @@ export default function Fechar_comprar() {
                     <label className={styled.Input}>
                         Você é discipulo da visão celular M12?
                         <span>*</span>
-                        <select value={partedaVisao} onChange={value => setParteDaVisao(value.target.value)}>
+                        <select
+                            disabled={request}
+                            value={partedaVisao}
+                            onChange={value => setParteDaVisao(value.target.value)}>
                             <option value="sim">sim</option>
                             <option value="não">não</option>
                         </select>
@@ -115,6 +126,7 @@ export default function Fechar_comprar() {
                                 <span>*</span>
                                 <input type="text"
                                     placeholder="Somente os números"
+                                    disabled={request}
                                     {...register('nome_lider')}
                                 />
                             </label>
@@ -122,6 +134,7 @@ export default function Fechar_comprar() {
                                 Qual sua igreja?
                                 <span>*</span>
                                 <select
+                                    disabled={request}
                                     {...register('igreja')}>
                                     <option value="">Selecione</option>
                                     <option value="Sede">Sede</option>
@@ -167,7 +180,9 @@ export default function Fechar_comprar() {
                             </label>
                         </div>
 
-                        <button type="submit">Comprar</button>
+                        <button type="submit" disabled={request}>
+                            {request ? 'Carregando' : 'Comprar'}
+                        </button>
                     </div>
                 </article>
             </form>
