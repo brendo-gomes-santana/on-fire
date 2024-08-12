@@ -12,5 +12,5 @@ export interface Carrinho {
 export interface CarrinhoContextType {
     carrinho: Carrinho[] | null;
     AddItem: ({}: Carrinho) => void;
-    RemoveItem: (id: string) => void;
+    RemoveItem: (id: string | number) => void;
 }

@@ -1,4 +1,4 @@
-export default function formatReal( int: number ): string {
+export default function formatReal( int: number | undefined ): string {
         
         var tmp = int+'';
         tmp = tmp.replace(/([0-9]{2})$/g, ",$1");

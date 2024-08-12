@@ -1,9 +1,9 @@
 
 import { Metadata } from "next";
-import Image from "next/image"
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import Quantidade from "@/components/quantidade"
+import Quantidade from "@/components/quantidade";
 import styled from './styled.module.scss';
 
 import { Produtos } from "@/utils/Produtos";

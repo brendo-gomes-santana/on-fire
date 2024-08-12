@@ -98,11 +98,16 @@
 
     display: flex;
     align-items: center;
-
     a {
         padding: 0 1em;
         font-size: 18px;
         color: #fff;
+    }
+
+    button{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
     }
 }
 

@@ -1,12 +1,13 @@
 'use client'
+
 import { useContext } from "react";
-import { useRouter } from 'next/navigation'
-import { useState, ChangeEvent } from "react"
+import { useRouter } from 'next/navigation';
+import { useState, ChangeEvent } from "react";
 
-import styled from './styled.module.scss'
 import { CarrinhoContext } from "@/contexts/carrinho";
+import { InformacoesProps } from "@/utils/types/CardProps";
 
-import { InformacoesProps } from "@/utils/types/CardProps"
+import styled from './styled.module.scss';
 
 export default function Quantidade({produto}: {
     produto: InformacoesProps
@@ -29,7 +30,7 @@ export default function Quantidade({produto}: {
             id: produto.id,
             name: produto.name,
             amount: quantidade,
-            value: produto.value * quantidade,
+            value: produto.value,
             link: `/produto/${produto.id}`
         })
     }
@@ -40,7 +41,7 @@ export default function Quantidade({produto}: {
             id: produto.id,
             name: produto.name,
             amount: quantidade,
-            value: produto.value * quantidade,
+            value: produto.value,
             link: `/produto/${produto.id}`
         })
 
@@ -56,6 +57,12 @@ export default function Quantidade({produto}: {
                     <option value={2}>2</option>
                     <option value={3}>3</option>
                     <option value={4}>4</option>
+                    <option value={5}>5</option>
+                    <option value={6}>6</option>
+                    <option value={7}>7</option>
+                    <option value={8}>8</option>
+                    <option value={9}>9</option>
+                    <option value={10}>10</option>
                 </select>
             </div>
             <button 

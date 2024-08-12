@@ -9,8 +9,8 @@ import  formatReal from '@/utils/funcoes/FormatReal'
 
 export default function ListaDeprodutos(){
 
-    const { carrinho } = useContext(CarrinhoContext)
-    console.table(carrinho)
+    const { carrinho } = useContext(CarrinhoContext);
+
     return(
         <div className={styled.container}>
             {
@@ -20,7 +20,7 @@ export default function ListaDeprodutos(){
                             <Link href={item.link as string}>{item.name}</Link>
                             <div className={styled.containerControle}>
                                 <p>quantidade: {item.amount}</p>
-                                <p>R$ {formatReal(item.value)}</p>
+                                <p>R$ {formatReal(item.value * item.amount)}</p>
                             </div>
                         </div>
                     )
