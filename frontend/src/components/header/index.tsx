@@ -28,9 +28,8 @@ export default function Header() {
     const [carrinhoOpen, setCarrinhoOpen] = useState(false);
 
     function somarCarrinho(carrinho: Carrinho[] | null): number {
-        const total = carrinho?.reduce((resultado, quantidade) => {
-            return resultado + quantidade.value
-        }, 0)
+        const total = carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0)
+
 
         if (!total) {
             return 0

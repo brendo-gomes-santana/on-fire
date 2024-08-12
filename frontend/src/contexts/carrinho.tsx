@@ -45,7 +45,7 @@ export default function CarrinhoProvider({ children }: {children: ReactNode}){
         alert('Cadastrado no carrinho');
     }
 
-    function RemoveItem(id: string) {
+    function RemoveItem(id: string | number):void {
         const novoCarrinho = carrinho.filter(item => item.id !== id);
         setCarrinho(novoCarrinho);
         localStorage.setItem("@carrinho-onfire", JSON.stringify(novoCarrinho));

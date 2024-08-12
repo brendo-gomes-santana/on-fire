@@ -1,8 +1,9 @@
 'use client'
 
-import { redirect } from 'next/navigation';
-import { useContext, useState } from "react";
-import { useForm } from 'react-hook-form';
+import { useContext, useState, useEffect } from "react";
+
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import styled from './styled.module.scss';
 import ListaDeprodutos from '@/components/ListaDePedido';
@@ -11,106 +12,145 @@ import { CarrinhoContext } from "@/contexts/carrinho";
 import { Carrinho } from '@/utils/types/carrinhoProps';
 import formatReal from '@/utils/funcoes/FormatReal';
 
+
 export default function Fechar_comprar() {
 
+    const router = useRouter();
+
+    const [carregando, setCarregando] = useState(true);
+
     const { carrinho } = useContext(CarrinhoContext)
-    const [partedaVisao, setParteDaVisao] = useState('sim')
+    const [partedaVisao, setParteDaVisao] = useState('não')
 
     const { register, handleSubmit } = useForm();
 
-    if (carrinho === null) {
-        redirect('/loja')
+    useEffect(() => {
+        (()=> {
+            if(carrinho?.length === 0){
+                router.push('/loja');
+            
+            }
+            setCarregando(false);
+        })()
+    },[])
+
+    function onSumit(data: any) {
+
+        const UserLocalStorageString = localStorage.getItem("@form");
+
+        if (UserLocalStorageString !== null || UserLocalStorageString !== undefined) {
+
+            localStorage.setItem('@form', JSON.stringify({
+                ...data,
+                parte_da_visao: partedaVisao
+            }))
+            
+            router.push('/pix');
+        } else {
+            localStorage.removeItem('@form');
+        }
     }
-
-
-
-    function handleCadastre(data: any) {
-
+    if(carregando){
+        return(
+            <div>
+                Carregando
+            </div>
+        )
     }
     return (
         <section className={styled.container}>
-            <h1>FINALIZANDO A COMPRAR</h1>
-            <form className={styled.form} onSubmit={handleSubmit(handleCadastre)}>
-                <label className={styled.Input}>
-                    Nome
-                    <span>*</span>
-                    <input type="text"
-                        placeholder="Digite o nome completo"
-                    />
-                </label>
-                <label className={styled.Input}>
-                    Número para contato
-                    <span>*</span>
-                    <input type="text"
-                        placeholder="Somente os números"
-                    />
-                </label>
-                <label className={styled.Input}>
-                    Você é discipulo da visão celular M12?
-                    <select value={partedaVisao} onChange={value => setParteDaVisao(value.target.value)}>
-                        <option value="sim">sim</option>
-                        <option value="não">não</option>
-                    </select>
-                </label>
-                {partedaVisao === 'sim' && (
-                    <>
-                        <label className={styled.Input}>
-                            Nome do líder
-                            <span>*</span>
-                            <input type="text"
-                                placeholder="Somente os números"
-                            />
-                        </label>
-                        <label className={styled.Input}>
-                            Nome do líder
-                            <span>*</span>
-                            <select>
-                                <option>Selecione</option>
-                                <option>Sede</option>
-                                <option>Setorial</option>
-                                <option>Outros</option>
-                            </select>
-                        </label>
-                    </>
-                )}
+            <h1>FINALIZANDO A COMPRA</h1>
+            <form onSubmit={handleSubmit(onSumit)}>
+                <div className={styled.form} >
+                    <label className={styled.Input}>
+                        Nome
+                        <span>*</span>
+                        <input type="text"
+                            placeholder="Digite o nome completo"
+                            {...register('nome', {
+                                required: true
+                            })}
+                        />
+                    </label>
+                    <label className={styled.Input}>
+                        Número para contato
+                        <span>*</span>
+                        <input type="text"
+                            placeholder="Somente os números"
+                            {...register('contato')}
+                        />
+                    </label>
+                    <label className={styled.Input}>
+                        Você é discipulo da visão celular M12?
+                        <span>*</span>
+                        <select value={partedaVisao} onChange={value => setParteDaVisao(value.target.value)}>
+                            <option value="sim">sim</option>
+                            <option value="não">não</option>
+                        </select>
+                    </label>
+                    {partedaVisao === 'sim' && (
+                        <>
+                            <label className={styled.Input}>
+                                Nome do líder
+                                <span>*</span>
+                                <input type="text"
+                                    placeholder="Somente os números"
+                                    {...register('nome_lider')}
+                                />
+                            </label>
+                            <label className={styled.Input}>
+                                Qual sua igreja?
+                                <span>*</span>
+                                <select
+                                    {...register('qual_igreja')}>
+                                    <option value="">Selecione</option>
+                                    <option value="Sede">Sede</option>
+                                    <option value="Setorial">Setorial</option>
+                                    <option value="Cobertura">Cobertura</option>
+                                </select>
+                            </label>
+                        </>
+                    )}
+                </div>
 
+
+                <hr />
+                <h2
+                    style={{
+                        color: '#f25c05',
+                        marginTop: '1em'
+                    }}
+                >Produtos</h2>
+                <article className={styled.ContainerProdutos}>
+                    <ListaDeprodutos />
+                    <div className={styled.ContainerValores}>
+                        <div className={styled.dados}>
+                            <label>Valor dos produtos</label>
+                            <label>R$
+                                {formatReal(carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0))}
+                            </label>
+                        </div>
+                        <div className={styled.dados}>
+                            <label>Frete</label>
+                            <label>R$
+                                0
+                            </label>
+
+                        </div>
+
+                        <hr />
+
+                        <div className={styled.dados}>
+                            <label>Total</label>
+                            <label>R$
+                                {formatReal(carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0))}
+                            </label>
+                        </div>
+
+                        <button type="submit">Comprar</button>
+                    </div>
+                </article>
             </form>
-            <hr />
-            <h2
-                style={{
-                    color: '#f25c05',
-                    marginTop: '1em'
-                }}
-            >Produtos</h2>
-            <article className={styled.ContainerProdutos}>
-                <ListaDeprodutos />
-                <form className={styled.ContainerValores}>
-                    <div className={styled.dados}>
-                        <label>Valor dos produtos</label>
-                        <label>R$
-                            {formatReal(carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0))}
-                        </label>
-                    </div>
-                    <div className={styled.dados}>
-                        <label>Frete</label>
-                        <label>R$
-                            00,00
-                        </label>
-
-                    </div>
-
-                    <hr />
-
-                    <div className={styled.dados}>
-                        <label>Total</label>
-                        <label>R$
-                            {formatReal(carrinho?.reduce((total: number, carrinho: Carrinho) => (carrinho.value * carrinho.amount) + total, 0))}
-                        </label>
-                    </div>
-
-                    <button>Comprar</button>
-                </form>
-            </article>
         </section>
     )
 }
