@@ -2,6 +2,11 @@
     min-height: 80vh;
 
     padding: 3em 7em;
+    width: 100%;
+
+    @media (max-width: 1024px){
+        padding: 3em 1em;
+    }
 }
 
 .ContainerInformacoes {
@@ -12,6 +17,32 @@
         height: 400px;
         margin: 0 5em;
         border-radius: 13px;
+    }
+
+    @media (max-width: 1024px){
+        img{
+            width: 400px;
+            height: 350px;  
+            margin: 0 1em;
+        }
+    }
+
+    @media (max-width: 768px){
+        flex-direction: column;
+        align-items: center;
+
+        img{
+            margin-bottom: 1em;
+        }
+    }
+
+    @media (max-width: 425px){
+
+        img{
+            margin-bottom: 1em;
+            width: 100%;
+            margin: 0;
+        }
     }
 }
 
@@ -28,6 +59,16 @@
 
     hr{
         margin: 1em 0;
+    }
+
+    @media (max-width: 425px){
+        h1,h2 {
+            text-align: center;
+        }
+
+        hr{
+            width: 100%;
+        }
     }
 }
 
@@ -52,6 +93,20 @@
         &:first-child{
             flex: 1;
             position: relative;
+        }
+    }
+
+    @media (max-width: 425px){
+        div{
+            p{
+                font-size: 30px;
+                text-align: center;
+            }
+
+            span {
+                font-size: 15px;
+                text-align: center;
+            }
         }
     }
 }
