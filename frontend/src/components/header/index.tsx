@@ -24,7 +24,7 @@ import { Carrinho } from '@/utils/types/carrinhoProps';
 export default function Header() {
 
     const { RemoveItem, carrinho } = useContext(CarrinhoContext);
-    const { logado } = useContext(authContext);
+    const { logado, deslogar } = useContext(authContext);
 
     const [carrinhoOpen, setCarrinhoOpen] = useState(false);
 
@@ -91,7 +91,7 @@ export default function Header() {
                     <Link href="/">Início</Link>
                     <Link href="/loja">Loja</Link>
                     {logado && (
-                        <button>
+                        <button onClick={() => deslogar()}>
                             <IoIosLogIn size={30} color='#fff' />
                         </button>
                     )}

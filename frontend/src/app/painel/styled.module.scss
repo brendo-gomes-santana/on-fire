@@ -1,0 +1,23 @@
+.container {
+    min-height: 80vh;
+    padding: 1em 2em;
+    h1{
+        color: #f25c05;
+    }
+}
+
+.navegacao{
+    a {
+        background: transparent;
+        border: none;
+        margin: 0 0.5em;
+        color: #f25c05;
+        border-bottom: 1px solid #f25c05;
+        cursor: pointer;
+
+        transition: 0.5s;
+        &:hover{
+            transform: translateY(-4px);
+        }
+    }
+}

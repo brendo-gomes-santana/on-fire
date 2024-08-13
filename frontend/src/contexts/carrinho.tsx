@@ -2,6 +2,7 @@
 
 import React, { createContext, ReactNode, useEffect, useState } from "react";
 import { Carrinho, CarrinhoContextType } from "@/utils/types/carrinhoProps";
+import { toast } from "react-toastify";
 
 export const CarrinhoContext = createContext({} as CarrinhoContextType);
 
@@ -41,8 +42,7 @@ export default function CarrinhoProvider({ children }: {children: ReactNode}){
             setCarrinho(novoCarrinho);
             localStorage.setItem("@carrinho-onfire", JSON.stringify(novoCarrinho));
         }
-
-        alert('Cadastrado no carrinho');
+        toast.success('Item Cadastrado');
     }
 
     function RemoveItem(id: string | number):void {

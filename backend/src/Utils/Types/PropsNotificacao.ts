@@ -1,3 +1,5 @@
+import { TypePagamentoPix } from "./PropsPagamentoPix";
+
 export interface TypeNotificaRetorno {
     action: string;
     api_version: string;
@@ -9,4 +11,9 @@ export interface TypeNotificaRetorno {
     live_mode: boolean;
     type: string;
     user_id: string;
+}
+
+
+export interface TypeRetornoDBUSER extends TypePagamentoPix {
+    controle: string
 }

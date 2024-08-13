@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 import { LoginUserProps, ContextAuth } from "@/utils/types/Auth";
 import { auth } from "@/firebase";
@@ -16,16 +16,25 @@ export default function AuthProvider({ children }: {children: ReactNode}) {
 
     const [logado, setLogado] = useState(false);
 
+    const [carregando, setCarregando] = useState(true);
+
     useEffect(() => {
         const UserLocalStorageString = localStorage.getItem("@user");
 
         if (UserLocalStorageString !== null) {
+           
             setLogado(true);
+            setCarregando(false);
+
         } else {
             setLogado(false);
+            if(pathname === '/painel' || pathname === '/painel/lista_compradores') {
+                router.push('/login');
+            }
+            setCarregando(false);
         }
-    }, [pathname]); 
-    
+    }, [pathname, logado, router]); 
+
     async function Logar(infor: LoginUserProps){
 
         if(infor.email === "" || infor.senha === ''){
@@ -48,17 +57,29 @@ export default function AuthProvider({ children }: {children: ReactNode}) {
         }
     }
 
-    useEffect(() => {
-        if(pathname === '/painel' && !logado) {
-            router.push('/loja');
-        }
-    }, [pathname, logado, router]);
+
+    function deslogar(){
+        signOut(auth)
+        localStorage.removeItem('@user');
+        setLogado(false);
+        router.push('/');
+    }
+
+
+    if(carregando){
+        return(
+            <div>
+                Carregando...
+            </div>
+        )
+    }
 
     return (
         <authContext.Provider
             value={{
                 Logar,
-                logado
+                logado,
+                deslogar
             }}
         >
             {children}

@@ -5,12 +5,15 @@
     h1 {
         color: #f25c05;
     }
+
+    @media (max-width: 1054px){
+        padding: 3em 1em;
+    }
 }
 
 .form {
     margin: 1em auto;
     width: 100%;
-
 
     display: flex;
     flex-direction: column;
@@ -51,17 +54,20 @@
 }
 
 .ContainerProdutos {
-
     display: flex;
     padding-top: 2vh;
     flex-wrap: wrap;
+
+
+    @media (max-width: 876px){
+        flex-direction: column;
+    }
 }
 
 
 .ContainerValores {
     width: 100%;
     max-width: 400px;
-
 
     button {
         width: 100%;
@@ -73,6 +79,12 @@
         border: none;
         font-weight: bold;
         cursor: pointer;
+    }
+
+
+    @media (max-width: 876px){
+        margin: 2em auto;
+
     }
 }
 

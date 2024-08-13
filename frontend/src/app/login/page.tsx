@@ -27,7 +27,7 @@ export default function login(){
     
     if(pathname === '/login'){
         if(logado){
-            return router.push('/')
+            return router.push('/painel')
         }
     }
 

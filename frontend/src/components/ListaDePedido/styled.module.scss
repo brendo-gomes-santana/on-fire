@@ -1,34 +1,46 @@
-.container{
+.container {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     flex: 1;
 
     padding: 0 1em;
+
 }
 
-.item{
+.item {
     display: flex;
     width: 100%;
     align-items: center;
 
     color: #fff;
 
-    a{
+    a {
         color: #fff;
+
     }
+
+    @media (max-width: 868px){
+        justify-content: space-between;
+    }
+
 }
 
-.containerControle{
+.containerControle {
 
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   
-    p{
-        &:last-child{
+    p {
+        &:last-child {
             color: #B12704;
         }
     }
+
+    @media (max-width: 868px){
+        flex: 0;
+        text-align: center;
+    }
+
 }

@@ -9,9 +9,9 @@ class NotificacaoController{
         const body = req.body as TypeNotificaRetorno;
         
         const inic = new NotificacaoService();
-        await inic.execute(body);
+        const retorno = await inic.execute(body);
         
-        return res.send();
+        return res.json(retorno);
     }
 }
 

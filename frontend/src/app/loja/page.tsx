@@ -3,8 +3,6 @@ import { Metadata } from 'next';
 import Card from '@/components/Card';
 import styled from './styled.module.scss';
 
-import logo from '../../../public/PERFIL.png'
-
 import { Produtos } from '@/utils/Produtos';
 
 export function generateMetadata():Metadata{
@@ -22,6 +20,7 @@ export default function Loja(){
                 {Produtos.map((item)=>{
                     return(
                         <Card
+                        key={item.id}
                         name={item.name}
                         cap={item.cap}
                         value={item.value}

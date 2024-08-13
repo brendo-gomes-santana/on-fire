@@ -5,6 +5,7 @@ export interface LoginUserProps{
 
 export interface ContextAuth{
     Logar: ( infor: LoginUserProps ) => void;
+    deslogar: () => void;
     logado: boolean
 }
 
