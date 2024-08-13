@@ -1,5 +1,5 @@
 import { Payment, MercadoPagoConfig } from 'mercadopago';
-import admin from 'firebase-admin';
+import admin from '../config/firebase';
 import dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
 import { TypePagamentoPix } from "../Utils/Types/PropsPagamentoPix";
@@ -9,9 +9,7 @@ dotenv.config();
 const mercadoPagoConfig = new MercadoPagoConfig({ accessToken: process.env.TOKEN as string })
 const payment = new Payment(mercadoPagoConfig);
 
-admin.initializeApp({
-    credential: admin.credential.cert('src/Service/secury.json')
-});
+
 
 const db = admin.firestore();
 
