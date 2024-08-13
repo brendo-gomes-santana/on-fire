@@ -21,10 +21,20 @@
     span{
         font-size: 12px;
         color: #828282;
+        text-align: center;
         a{
             color: #828282;
             font-weight: bold;
             
+        }
+    }
+
+    @media (max-width: 425px){
+
+        padding: 0.5em 1em;
+        
+        span {
+            margin-top: 0.5em;
         }
     }
 }
@@ -36,9 +46,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     a{
         color: #fff;
         font-size: 15px;
+    }
+
+    
+    @media (max-width: 425px){
+        flex-direction: column;
+        text-align: center;
+
+        a{
+            margin: 1em 0;
+        }
     }
 }

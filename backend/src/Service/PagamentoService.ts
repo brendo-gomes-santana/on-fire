@@ -29,7 +29,6 @@ class PagamentoService {
     }: TypePagamentoPix) {
 
         const id = uuidv4();
-
         try {
             const result = await payment.create({
                 body: {
