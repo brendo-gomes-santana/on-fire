@@ -12,9 +12,8 @@ const payment = new Payment(mercadoPagoConfig);
 admin.initializeApp({
     credential: admin.credential.cert('src/Service/secury.json')
 });
+
 const db = admin.firestore();
-
-
 
 class PagamentoService {
     async execute({
@@ -35,6 +34,7 @@ class PagamentoService {
                     transaction_amount: valor,
                     description: descricao,
                     payment_method_id: 'pix',
+                    notification_url: process.env.NOTIFICAO,
                     payer: {
                         email: email,
                         first_name: nome,
@@ -45,10 +45,12 @@ class PagamentoService {
                 },
                 requestOptions: { idempotencyKey: id }
             });
-            console.log('passou aqui')
+
             // Cria ou atualiza o documento no Firestore
-            const docRef = db.collection('compradores').doc(id);
+            const docRef = db.collection('compradores').doc(String(result.id));
+
             await docRef.set({
+                controle: String(result.id),
                 nome,
                 contato,
                 descricao,
@@ -58,6 +60,8 @@ class PagamentoService {
                 nome_lider: nome_lider === "" || !nome_lider ? null : nome_lider,
                 pago: false
             });
+            
+            console.log(result.id);
 
             return result;
 

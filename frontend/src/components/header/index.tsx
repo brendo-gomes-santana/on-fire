@@ -18,6 +18,7 @@ import { IoIosLogIn } from "react-icons/io";
 
 import logo_onfire from '../../../public/LOGO-ON-FIRE-PNG.png';
 
+
 import { Carrinho } from '@/utils/types/carrinhoProps';
 
 export default function Header() {

@@ -54,12 +54,13 @@ export default function Fechar_comprar() {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_ROUTER_API}/v1/pagamento`, body);
 
-            //FUTURAMENTE - COLOCO qr_code_base64
+            //FUTURAMENTE - COLOCO qr_code_base64\
+
             localStorage.removeItem('@carrinho-onfire')
             window.location.href = response.data.point_of_interaction.transaction_data.ticket_url;
 
         } catch (err) {
-            console.log(err);
+            console.error(err);
         } finally {
             setRequest(false);
         }

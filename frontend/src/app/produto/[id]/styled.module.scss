@@ -4,7 +4,7 @@
     padding: 3em 7em;
     width: 100%;
 
-    @media (max-width: 1024px){
+    @media (max-width: 1112px){
         padding: 3em 1em;
     }
 }
@@ -19,7 +19,7 @@
         border-radius: 13px;
     }
 
-    @media (max-width: 1024px){
+    @media (max-width: 1333px){
         img{
             width: 400px;
             height: 350px;  
@@ -27,7 +27,7 @@
         }
     }
 
-    @media (max-width: 768px){
+    @media (max-width: 916px){
         flex-direction: column;
         align-items: center;
 

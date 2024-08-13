@@ -10,7 +10,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 app.use('/v1', route);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
