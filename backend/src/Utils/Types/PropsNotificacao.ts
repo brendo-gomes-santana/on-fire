@@ -13,7 +13,13 @@ export interface TypeNotificaRetorno {
     user_id: string;
 }
 
+export interface TypeNotificaRetornoMinuto {
+    resource: string, 
+    topic: string
+}
+
 
 export interface TypeRetornoDBUSER extends TypePagamentoPix {
-    controle: string
+    controle: string,
+    pago: boolean
 }

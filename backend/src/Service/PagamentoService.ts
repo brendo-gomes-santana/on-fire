@@ -1,19 +1,19 @@
 import { Payment, MercadoPagoConfig } from 'mercadopago';
 import { DateTime } from 'luxon'
 
-import formatDateISO from '../Utils/function/formatISO';
 import admin from '../config/firebase';
+
 import dotenv from 'dotenv';
+dotenv.config();
+
 import { v4 as uuidv4 } from 'uuid';
 import { TypePagamentoPix } from "../Utils/Types/PropsPagamentoPix";
 
-dotenv.config();
 
-// Configuração do Mercado Pago
 const mercadoPagoConfig = new MercadoPagoConfig({ accessToken: process.env.TOKEN as string })
 const payment = new Payment(mercadoPagoConfig);
-
 const db = admin.firestore();
+
 
 class PagamentoService {
     async execute({
@@ -29,13 +29,8 @@ class PagamentoService {
 
         const id = uuidv4();
 
-        // Adiciona 5 minutos à data e hora atuais
         const expirationDate = DateTime.now().plus({ minutes: 70 });
-
-        // Define o fuso horário de Manaus
         const timeZone = 'America/Sao_Paulo';
-
-        // Formata a data no formato desejado
         const formattedExpirationDate = expirationDate.setZone(timeZone).toFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 
         try {
@@ -75,9 +70,10 @@ class PagamentoService {
                 pago: false
             });
 
-            return (result);
+            return result
 
         } catch (err) {
+            console.log('Pagamento - Criar pix | cadastrar usuario')
             console.error(err);
             throw new Error('Algo deu errado');
         }

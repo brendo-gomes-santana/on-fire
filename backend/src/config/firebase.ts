@@ -1,8 +1,10 @@
 import admin from 'firebase-admin';
 
-admin.initializeApp({
-    credential: admin.credential.cert('src/config/secury.json')
-});
-
+if(!admin.apps.length){
+    admin.initializeApp({
+        credential: admin.credential.cert('src/config/secury.json'),    
+    });
+    
+}
 
 export default admin

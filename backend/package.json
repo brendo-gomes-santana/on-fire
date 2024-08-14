@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
-    "build": "tsup src",
-    "start": "node dist/index.js"
+    "build": "tsc && npm run copy-files",
+    "start": "node build/index.js",
+    "copy-files": "xcopy /E /I src\\config\\secury.json build\\config\\"
   },
   "author": "Brendo Gomes Santana",
   "license": "ISC",

@@ -10,7 +10,7 @@ export const Produtos = [
     {
         id: 2,
         name: 'Produto teste',
-        value: 120,
+        value: 150,
         cap: Capa
     }
 ]
