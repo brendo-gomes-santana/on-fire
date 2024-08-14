@@ -11,38 +11,39 @@ import { TypeRetornoDBUSER } from "../Utils/Types/PropsNotificacao";
 class NotificacaoService {
 
     async execute(body: TypeNotificaRetorno): Promise<Error | void> {
-        
+
         const db = admin.firestore();
 
-        if (body.action !== 'payment.created') {
-            throw new Error("pagamento nao caiu")
-        }
+        console.log('----------------------------------')
+        console.log(body);
 
-        if(!body.data.id || body.data.id === ''){
+        if (!body.data.id || body.data.id === '') {
             throw new Error('Não tem informações necessaria')
         }
 
-        try {
-            await db
-                .collection('compradores')
-                .doc(body.data.id)
-                .update({
-                    pago: true
-            });
+        // payment.updated - > talvez
+        if (body.action === 'payment.updated') {
+            console.log('entrou aqui')
+            try {
+                await db
+                    .collection('compradores')
+                    .doc(body.data.id)
+                    .update({
+                        pago: true
+                    });
 
-            const userRef = db.collection('compradores').doc(body.data.id);
-            const user = await userRef.get();
+                const userRef = db.collection('compradores').doc(body.data.id);
+                const user = await userRef.get();
 
-            const dados = user.data() as TypeRetornoDBUSER
+                const dados = user.data() as TypeRetornoDBUSER
 
-            
-
-            this.mandarEmail(dados);
+                this.mandarEmail(dados);
 
 
-        } catch (err) {
-            console.log(err);
-            throw new Error("banco nao atualizado")
+            } catch (err) {
+                console.log(err);
+                throw new Error("banco nao atualizado")
+            }
         }
     }
 

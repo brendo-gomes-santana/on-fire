@@ -1,4 +1,7 @@
 import { Payment, MercadoPagoConfig } from 'mercadopago';
+import { DateTime } from 'luxon'
+
+import formatDateISO from '../Utils/function/formatISO';
 import admin from '../config/firebase';
 import dotenv from 'dotenv';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,6 +28,16 @@ class PagamentoService {
     }: TypePagamentoPix): Promise<Error | any> {
 
         const id = uuidv4();
+
+        // Adiciona 5 minutos à data e hora atuais
+        const expirationDate = DateTime.now().plus({ minutes: 70 });
+
+        // Define o fuso horário de Manaus
+        const timeZone = 'America/Sao_Paulo';
+
+        // Formata a data no formato desejado
+        const formattedExpirationDate = expirationDate.setZone(timeZone).toFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+
         try {
             const result = await payment.create({
                 body: {
@@ -38,7 +51,8 @@ class PagamentoService {
                         phone: {
                             number: contato
                         }
-                    }
+                    },
+                    date_of_expiration: formattedExpirationDate
                 },
                 requestOptions: { idempotencyKey: id }
             });
@@ -60,8 +74,8 @@ class PagamentoService {
                 nome_lider: nome_lider === "" || !nome_lider ? null : nome_lider,
                 pago: false
             });
-            
-            return(result);
+
+            return (result);
 
         } catch (err) {
             console.error(err);
