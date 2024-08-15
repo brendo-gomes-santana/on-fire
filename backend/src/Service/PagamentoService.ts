@@ -2,7 +2,6 @@ import { Payment, MercadoPagoConfig } from 'mercadopago';
 import { DateTime } from 'luxon'
 
 import admin from '../config/firebase';
-
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -12,8 +11,8 @@ import { TypePagamentoPix } from "../Utils/Types/PropsPagamentoPix";
 
 const mercadoPagoConfig = new MercadoPagoConfig({ accessToken: process.env.TOKEN as string })
 const payment = new Payment(mercadoPagoConfig);
-const db = admin.firestore();
 
+const db = admin.firestore();
 
 class PagamentoService {
     async execute({
@@ -52,10 +51,11 @@ class PagamentoService {
                 requestOptions: { idempotencyKey: id }
             });
 
+
+            
+
             // Cria ou atualiza o documento no Firestore
             const docRef = db.collection('compradores').doc(String(result.id));
-
-
             await docRef.set({
                 controle: String(result.id),
                 nome,

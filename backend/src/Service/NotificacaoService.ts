@@ -72,26 +72,29 @@ class NotificacaoService {
         } else {
             try {
 
-                const userRef = db.collection('compradores').doc(body.data.id);
+                const userRef = db.collection('compradores').doc(body.data.id)
 
                 const buscado = await userRef.get();
+                console.log('-------------------------------------------')
                 console.log('passou userRef');
 
                 if (!buscado.exists) {
                     throw new Error('Documento não encontrado');
                 }
 
-                const dados = buscado.data() as TypeRetornoDBUSER;;
-                console.log('Dados do usuário:', dados);
-
+                const dados = buscado.data() as TypeRetornoDBUSER;
+                console.log('-------------------------------------------')
+                console.log('pegou os dados')
 
                 this.mandarEmail(dados);
-                console.log('mandou email');
 
                 await db
                     .collection('compradores')
                     .doc(body.data.id)
                     .delete();
+
+                console.log('-------------------------------------------')
+                console.log('deletou os dados')
 
             } catch (err) {
                 console.log('notificacao - Deletar usuario e mandar um email')
