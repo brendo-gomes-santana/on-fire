@@ -1,7 +1,7 @@
 import { Payment, MercadoPagoConfig } from 'mercadopago';
 import { DateTime } from 'luxon'
+import prismaClient from '../config';
 
-import admin from '../config/firebase';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -11,8 +11,6 @@ import { TypePagamentoPix } from "../Utils/Types/PropsPagamentoPix";
 
 const mercadoPagoConfig = new MercadoPagoConfig({ accessToken: process.env.TOKEN as string })
 const payment = new Payment(mercadoPagoConfig);
-
-const db = admin.firestore();
 
 class PagamentoService {
     async execute({
@@ -53,22 +51,22 @@ class PagamentoService {
 
 
             
+            await prismaClient.compradores.create({
+                data: {
+                    id: String(result.id),
+                    nome,
+                    contato,
+                    descricao,
+                    email,
+                    valor,
+                    visao,
 
-            // Cria ou atualiza o documento no Firestore
-            const docRef = db.collection('compradores').doc(String(result.id));
-            await docRef.set({
-                controle: String(result.id),
-                nome,
-                contato,
-                descricao,
-                email,
-                valor,
-                visao,
-                recebeu_ticket: false,
-                igreja: igreja === "" || !igreja ? null : igreja,
-                nome_lider: nome_lider === "" || !nome_lider ? null : nome_lider,
-                pago: false
-            });
+                    igreja: igreja === "" || !igreja ? null : igreja,
+                    nome_lider: nome_lider === "" || !nome_lider ? null : nome_lider,
+
+                }
+            })
+
 
             return result
 

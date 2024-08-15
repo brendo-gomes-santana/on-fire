@@ -1,4 +1,4 @@
-import admin from "../config/firebase";
+import prismaClient from '../config';
 import nodemailer from 'nodemailer';
 import { Payment, MercadoPagoConfig } from 'mercadopago';
 
@@ -10,7 +10,6 @@ import { TypeNotificaRetorno } from "../Utils/Types/PropsNotificacao";
 import { TypeRetornoDBUSER } from "../Utils/Types/PropsNotificacao";
 
 
-const db = admin.firestore();
 const mercadoPagoConfig = new MercadoPagoConfig({ accessToken: process.env.TOKEN as string })
 const payment = new Payment(mercadoPagoConfig);
 
@@ -19,7 +18,7 @@ class NotificacaoService {
 
     async execute(body: TypeNotificaRetorno): Promise<Error | void> {
 
-
+    
         console.log('----------------------------------------------')
         console.log(body)
 
@@ -32,7 +31,6 @@ class NotificacaoService {
             return
         }
 
-
         const result = await payment.get({
             id: body.data.id
         })
@@ -42,24 +40,17 @@ class NotificacaoService {
             try {
 
                 
-                await db
-                    .collection('compradores')
-                    .doc(body.data.id)
-                    .update({
+                const dados = await prismaClient.compradores.update({
+                    where: {
+                        id: body.data.id
+                    },
+                    data: {
                         pago: true
-                    });
+                    }
+                })
 
-                const userRef = db.collection('compradores').doc(body.data.id);
 
-                const userDoc = await userRef.get();
-
-                if (!userDoc.exists) {
-                    throw new Error('Documento não encontrado');
-                }
-
-                var dados = userDoc.data() as TypeRetornoDBUSER;
-
-                this.mandarEmail(dados);
+                this.mandarEmail(dados as TypeRetornoDBUSER);
 
 
             } catch (err) {
@@ -70,21 +61,19 @@ class NotificacaoService {
         } else {
             try {
 
-                const userRef = db.collection('compradores').doc(body.data.id === undefined ? String(result.id) : body.data.id);
+                const usuario = await prismaClient.compradores.delete({
+                    where: {
+                        id: body.data.id
+                    }
+                })
 
-                const buscado = await userRef.get();
-
-                if (!buscado.exists) {
+                if (!usuario) {
                     throw new Error('Documento não encontrado');
                 }
 
-                const dados = buscado.data() as TypeRetornoDBUSER;
-                this.mandarEmail(dados);
+                this.mandarEmail(usuario as TypeRetornoDBUSER);
 
-                await db
-                    .collection('compradores')
-                    .doc(body.data.id)
-                    .delete();
+
 
             } catch (err) {
                 console.log('notificacao - Deletar usuario e mandar um email')
@@ -113,7 +102,7 @@ class NotificacaoService {
                     textAlign: 'center'
                 }}>Ticket para recebimento da pulseira</h2>
                 <p>Olá, ${dados.nome}</p>
-                <p>Seguem as informações de codigo para recebe seu produto: ${dados.controle}</p>
+                <p>Seguem as informações de codigo para recebe seu produto: ${dados.id}</p>
             `
 
         const mensagemPagamentoExpirou = `

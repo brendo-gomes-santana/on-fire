@@ -12,3 +12,51 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+
+model Usuario {
+  id String @id @default(uuid())
+  nome String
+  email String @unique
+  senha String
+
+  @@map("usuarios")
+}
+
+model Produtos {
+  id String @id @default(uuid())
+  nome String 
+
+  valor Int
+  descricao String?
+
+  quantidade Int
+
+  img String?
+
+
+  @@map("produtos")
+}
+
+
+model Compradores {
+  id  String  @id @unique
+  nome String
+  contato String
+  
+  visao String
+  nome_lider String?
+  igreja String?
+
+  valor Int
+    
+  descricao String
+  email String
+
+  recebeu_ticket Boolean @default(false)
+  pago Boolean @default(false)
+
+  @@map("compradores")
+}
+
+
