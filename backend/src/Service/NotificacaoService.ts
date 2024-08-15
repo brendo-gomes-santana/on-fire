@@ -20,15 +20,13 @@ class NotificacaoService {
     async execute(body: TypeNotificaRetorno): Promise<Error | void> {
 
 
-
-        console.log('-------------------------------------------')
+        console.log('----------------------------------------------')
+        console.log(body)
 
         if (body.action === 'payment.created') {
-            console.log('travou no created');
+            console.log('stop');
             return
         }
-
-
 
         if (!body.data.id || body.data.id === '') {
             return
@@ -39,11 +37,11 @@ class NotificacaoService {
             id: body.data.id
         })
 
-
         if (result.status === 'approved') {
 
             try {
 
+                
                 await db
                     .collection('compradores')
                     .doc(body.data.id)
@@ -72,29 +70,21 @@ class NotificacaoService {
         } else {
             try {
 
-                const userRef = db.collection('compradores').doc(body.data.id)
+                const userRef = db.collection('compradores').doc(body.data.id === undefined ? String(result.id) : body.data.id);
 
                 const buscado = await userRef.get();
-                console.log('-------------------------------------------')
-                console.log('passou userRef');
 
                 if (!buscado.exists) {
                     throw new Error('Documento não encontrado');
                 }
 
                 const dados = buscado.data() as TypeRetornoDBUSER;
-                console.log('-------------------------------------------')
-                console.log('pegou os dados')
-
                 this.mandarEmail(dados);
 
                 await db
                     .collection('compradores')
                     .doc(body.data.id)
                     .delete();
-
-                console.log('-------------------------------------------')
-                console.log('deletou os dados')
 
             } catch (err) {
                 console.log('notificacao - Deletar usuario e mandar um email')
