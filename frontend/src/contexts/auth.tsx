@@ -67,6 +67,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     function deslogar() {
         localStorage.removeItem('@user');
         setLogado(false);
+        setUser(null);
         router.push('/');
     }
     

@@ -1,9 +1,9 @@
 'use client'
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { useQuery } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import api from '../../../config/index';
 import styled from './styled.module.scss';
@@ -13,78 +13,60 @@ import { ListaInformacoesType } from '@/utils/types/ListaCompradoresProps';
 
 
 export default function lista_compradores() {
-
-    const [listaDeCompradores, setListaDeCompradores] = useState<ListaInformacoesType[] | []>([]);
     const [abertoInfor, setAbertoInfor] = useState<string>('');
+    const queryClient = useQueryClient();
 
-    const { user  } = useContext(authContext);
+    const { user } = useContext(authContext);
 
-    const { data } = useQuery("compradores", (async () => {
-        try{
+    const { data: DataCompradores, refetch } = useQuery<ListaInformacoesType[]>("compradores", (async () => {
+        try {
 
-            if(!user){
-                toast.error('Você não está logado no sistema');
-                return
-            }
-
-            const response = await api.get(`/compradores?id_usuario=${user.id}`);
+            const response = await api.get(`/compradores?id_usuario=${user?.id}`);
             return response.data
 
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }))
-    
-
-
 
     const { register, handleSubmit, reset } = useForm();
-    /*
+
     async function handlePesquisar(data: any) {
-        const Ref = query(CompradoresRef, orderBy('nome', 'asc'))
-        await getDocs(Ref)
-            .then((snapShot) => {
 
-                const lista = [] as ListaInformacoesType[]
+        if (!data.id && !data.nome) {
+            refetch();
+            return
+        }
+        const usuario = DataCompradores?.filter((dados: ListaInformacoesType) => {
+            const filtraPorCodigo = data.codigo ? dados.id.startsWith(data.codigo) : true;
+            const filtraPorNome = data.nome ? dados.nome.startsWith(data.nome) : true;
+            return filtraPorCodigo && filtraPorNome;
+        });
 
-                snapShot.forEach((doc) => {
-                    lista.push({
-                        id: doc.id,
-                        nome: doc.data().nome,
-                        contato: doc.data().contato,
+        queryClient.setQueriesData("compradores", usuario)
+        reset();
 
-                        pago: doc.data().pago,
-
-                        nome_do_lider: doc.data().nome_lider,
-                        qual_igreja: doc.data().igreja,
-
-                        descricao: doc.data().descricao,
-                        recebeu_ticket: doc.data().recebeu_ticket
-                    });
-                });
-
-                const usuario = lista.filter((dados) => {
-                    const filtraPorCodigo = data.codigo ? dados.id.startsWith(data.codigo) : true;
-                    const filtraPorNome = data.nome ? dados.nome.startsWith(data.nome) : true;
-                    return filtraPorCodigo && filtraPorNome;
-                  });
-                  
-                setListaDeCompradores(usuario);
-                reset();
-
-            })
-            .catch((err) => {
-                console.error(err);
-            })
     }
-    */
+
+    const mutation = useMutation({
+        mutationFn: ({ id_comprador }: { id_comprador: string }) => {
+            return api.patch(`/compradores/${id_comprador}?id_usuario=${user?.id}`)
+                .then((res) => res.data)
+                .catch((err) => err);
+        },
+        onSuccess: (data) => {
+            queryClient.setQueryData("compradores", (currentData: any) => currentData.map((todos:ListaInformacoesType) => todos.id === data.id ? data : todos))
+        }
+    })
+
+
 
 
     return (
         <section className={styled.container}>
             <h1>Lista de compradores</h1>
 
-            <form className={styled.ContainerBuscador}>
+            <form className={styled.ContainerBuscador} onSubmit={handleSubmit(handlePesquisar)}>
                 <input
                     type="text"
                     placeholder='Digite o codigo'
@@ -98,8 +80,10 @@ export default function lista_compradores() {
                 <button>Pesquisar</button>
 
             </form>
-            
-            {data?.map((item: ListaInformacoesType) => {
+            {DataCompradores?.length === 0 && (
+                <span>Ninguem comprou ainda ...</span>
+            )}
+            {DataCompradores?.map((item: ListaInformacoesType) => {
                 return (
                     <article key={item.id}
                         style={{
@@ -147,7 +131,11 @@ export default function lista_compradores() {
                                     {item.descricao}
                                 </p>
                                 {!item.recebeu_ticket && (
-                                    <button>Ticket</button>
+                                    <button onClick={ 
+                                        () => {
+                                            mutation.mutate({ id_comprador: item.id })
+                                        }
+                                     }>Ticket</button>
                                 )}
                             </div>
                         )}
