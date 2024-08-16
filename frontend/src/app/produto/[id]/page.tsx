@@ -10,39 +10,46 @@ import { Produtos } from "@/utils/Produtos";
 import { InformacoesProps } from "@/utils/types/CardProps";
 import formatReal from "@/utils/funcoes/FormatReal";
 
-export function generateMetadata({params}: {params: {id: string | number}}):Metadata{
+export function generateMetadata({ params }: { params: { id: string | number } }): Metadata {
 
     const produto = Produtos.find((item) => item.id == params.id);
 
     return {
-        title: `On fire | ${produto?.name}`
+        title: `On fire | ${produto?.name}`,
+        description: produto?.name,
+
+        openGraph: {
+            title: produto?.name,
+            images: [`${process.env.NEXT_PUBLIC_URL_IMAGEM}/${produto?.name_image}`]
+        }
     }
 }
 
 
-function getProduto(id: string | number):InformacoesProps | null{
+function getProduto(id: string | number): InformacoesProps | null {
     const produto = Produtos.find((item) => item.id == id);
 
 
-    if(!produto?.id){
+    if (!produto?.id) {
         return null
     }
+    
     return produto
 }
 
-export default function Produto({params}: {params: {id: string}}){
+export default function Produto({ params }: { params: { id: string } }) {
 
     const produto = getProduto(params.id)
 
 
-    if(!produto){
+    if (!produto) {
         redirect('/loja')
     }
 
-    return(
+    return (
         <section className={styled.container}>
             <article className={styled.ContainerInformacoes}>
-                <Image src={produto?.cap} alt="testando" />
+                <Image src={produto?.image} alt="testando" />
                 <div className={styled.Informacoes}>
                     <h1>{produto?.name}</h1>
                     <h2>Código do produto: {params.id}</h2>
@@ -51,9 +58,9 @@ export default function Produto({params}: {params: {id: string}}){
                     <div className={styled.ContainerValores}>
                         <div>
                             <p id="valor">R$ {formatReal(produto?.value)}</p>
-                            <span>quantidade disponivel: 10000</span>
+                            <span>quantidade disponivel: 200</span>
                         </div>
-                        <Quantidade produto={produto}/>
+                        <Quantidade produto={produto} />
                     </div>
                 </div>
             </article>

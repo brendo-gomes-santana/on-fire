@@ -3,5 +3,7 @@ export interface InformacoesProps {
     name: string,
     value: number,
     cap: StaticImageData,
-    id: string | number
+    id: string | number,
+    image: StaticImageData,
+    name_image: string
 }

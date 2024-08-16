@@ -1,10 +1,17 @@
-import styled from './styled.module.scss'
+import Image from 'next/image';
 
+import desenvolvimento from '../../public/desenvolvimento.png';
+
+import styled from './styled.module.scss'
 
 export default function Home() {
   return (
     <main className={styled.container}>
-      <h1>teste</h1>
+      <section>
+        <article></article>
+        <p>EM DESENVOLVIMENTO</p>
+       
+      </section>
     </main>
   );
 }

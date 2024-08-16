@@ -14,6 +14,18 @@ import AuthProvider from "@/contexts/auth";
 export const metadata: Metadata = {
   title: "On fire",
   description: "Site oficial de comprar da onfire.",
+  keywords: ['onfire', 'miammu', 'music', 'comprar', 'online'],
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: true
+    }
+  },
+  icons: [`${process.env.NEXT_PUBLIC_URL_IMAGEM}/favicon.ico`]
 };
 
 export default function RootLayout({
