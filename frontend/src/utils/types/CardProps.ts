@@ -5,5 +5,5 @@ export interface InformacoesProps {
     cap: StaticImageData,
     id: string | number,
     image: StaticImageData,
-    name_image: string
+    name_image?: string
 }

@@ -9,12 +9,13 @@ export default function Card({
     name,
     value,
     cap,
-    id
+    id,
+    image
 }: InformacoesProps){
     return(
         <article className={styled.container}>
             <Image
-                src={cap}
+                src={!cap ? image : cap}
                 alt={`Imagem do produto ${name}`}
             />
             <Link href={`/produto/${id}`}>{name}</Link>

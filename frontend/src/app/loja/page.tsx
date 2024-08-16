@@ -25,6 +25,7 @@ export default function Loja(){
                         cap={item.cap}
                         value={item.value}
                         id={item.id}
+                        image={item.image}
                     />
                     )
                 })}
