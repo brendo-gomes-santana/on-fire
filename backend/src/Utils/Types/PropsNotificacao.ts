@@ -21,5 +21,6 @@ export interface TypeNotificaRetornoMinuto {
 
 export interface TypeRetornoDBUSER extends TypePagamentoPix {
     pago: boolean,
-    id: string
+    id: string,
+    recebeu_ticket: boolean
 }

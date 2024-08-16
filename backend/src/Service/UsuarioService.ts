@@ -47,8 +47,6 @@ class UsuarioService {
         return usuarioCriado
 
     }
-
-
     async session({ email, senha }: SessionProps): Promise<Error | RetornoUsuarioCreate>{
 
 
