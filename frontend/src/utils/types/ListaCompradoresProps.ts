@@ -5,8 +5,8 @@ export interface ListaInformacoesType {
 
     pago: boolean,
 
-    nome_do_lider: string | null,
-    qual_igreja: string | null,
+    nome_lider: string | null,
+    igreja: string | null,
 
     descricao: string,
     recebeu_ticket: boolean,

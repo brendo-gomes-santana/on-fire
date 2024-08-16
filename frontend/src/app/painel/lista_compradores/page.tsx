@@ -120,11 +120,11 @@ export default function lista_compradores() {
                                 </p>
                                 <p>
                                     <strong>Nome do líder: </strong>
-                                    {item.nome_do_lider}
+                                    {item.nome_lider}
                                 </p>
                                 <p>
                                     <strong>Qual igreja: </strong>
-                                    {item.qual_igreja}
+                                    {item.igreja}
                                 </p>
                                 <p>
                                     <strong>Descrição: </strong>
