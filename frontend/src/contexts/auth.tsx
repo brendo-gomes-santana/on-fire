@@ -1,54 +1,60 @@
 'use client'
 
-import { createContext, ReactNode, useState, useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+import { createContext, ReactNode, useState, useEffect, use } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { LoginUserProps, InformacoesUser } from "@/utils/types/Auth";
+import { ContextAuth } from "@/utils/types/Auth";
 
-import { LoginUserProps, ContextAuth } from "@/utils/types/Auth";
-import { auth } from "@/firebase";
+import api from "@/config";
 
+const client = new QueryClient();
 export const authContext = createContext({} as ContextAuth);
 
-export default function AuthProvider({ children }: {children: ReactNode}) {
+export default function AuthProvider({ children }: { children: ReactNode }) {
 
     const pathname = usePathname();
     const router = useRouter();
 
     const [logado, setLogado] = useState(false);
-
     const [carregando, setCarregando] = useState(true);
+    const [user, setUser] = useState<InformacoesUser | null>(null);
 
     useEffect(() => {
         const UserLocalStorageString = localStorage.getItem("@user");
 
         if (UserLocalStorageString !== null) {
-           
+
+            setUser(JSON.parse(UserLocalStorageString));
             setLogado(true);
             setCarregando(false);
 
         } else {
             setLogado(false);
-            if(pathname === '/painel' || pathname === '/painel/lista_compradores') {
+            if (pathname === '/painel' || pathname === '/painel/lista_compradores') {
                 router.push('/login');
             }
             setCarregando(false);
         }
-    }, [pathname, logado, router]); 
+    }, [pathname, logado, router]);
 
-    async function Logar(infor: LoginUserProps){
+    async function Logar(infor: LoginUserProps) {
 
-        if(infor.email === "" || infor.senha === ''){
+        if (infor.email === "" || infor.senha === '') {
             alert('Preencha os campos');
             return;
         }
 
         try {
-            const value = await signInWithEmailAndPassword(auth, infor.email, infor.senha);
-            
+            const response = await api.post('/session', infor);
+
             localStorage.setItem("@user", JSON.stringify({
-                email: value.user.email,
-                uid: value.user.uid
+                email: response.data.email,
+                id: response.data.id,
+                nome: response.data.nome
             }));
+
             setLogado(true);
             router.push('/painel');
         } catch (err) {
@@ -58,16 +64,14 @@ export default function AuthProvider({ children }: {children: ReactNode}) {
     }
 
 
-    function deslogar(){
-        signOut(auth)
+    function deslogar() {
         localStorage.removeItem('@user');
         setLogado(false);
         router.push('/');
     }
-
-
-    if(carregando){
-        return(
+    
+    if (carregando) {
+        return (
             <div>
                 Carregando...
             </div>
@@ -75,14 +79,18 @@ export default function AuthProvider({ children }: {children: ReactNode}) {
     }
 
     return (
-        <authContext.Provider
-            value={{
-                Logar,
-                logado,
-                deslogar
-            }}
-        >
-            {children}
-        </authContext.Provider>
+        <QueryClientProvider client={client}>
+            <authContext.Provider
+                value={{
+                    Logar,
+                    logado,
+                    user,
+                    deslogar
+                }}
+            >
+                {children}
+            </authContext.Provider>
+        </QueryClientProvider>
+
     )
 }

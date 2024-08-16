@@ -1,62 +1,45 @@
 'use client'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
-import { collection, getDocs, doc, updateDoc, orderBy, query } from 'firebase/firestore';
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { useQuery } from 'react-query';
 
+import api from '../../../config/index';
 import styled from './styled.module.scss';
+import { authContext } from '@/contexts/auth';
 
-import { db } from '@/firebase';
 import { ListaInformacoesType } from '@/utils/types/ListaCompradoresProps';
 
-const CompradoresRef = collection(db, 'compradores');
 
 export default function lista_compradores() {
 
-
     const [listaDeCompradores, setListaDeCompradores] = useState<ListaInformacoesType[] | []>([]);
-
-
     const [abertoInfor, setAbertoInfor] = useState<string>('');
 
-    useEffect(() => {
-        (async () => {
+    const { user  } = useContext(authContext);
 
-            const Ref = query(CompradoresRef, orderBy('nome', 'asc'))
-            await getDocs(Ref)
-                .then((snapShot) => {
+    const { data } = useQuery("compradores", (async () => {
+        try{
 
-                    const lista = [] as ListaInformacoesType[]
+            if(!user){
+                toast.error('Você não está logado no sistema');
+                return
+            }
 
-                    snapShot.forEach((doc) => {
-                        lista.push({
-                            id: doc.id,
-                            nome: doc.data().nome,
-                            contato: doc.data().contato,
+            const response = await api.get(`/compradores?id_usuario=${user.id}`);
+            return response.data
 
-                            pago: doc.data().pago,
+        }catch(err){
+            console.log(err);
+        }
+    }))
+    
 
-                            nome_do_lider: doc.data().nome_lider,
-                            qual_igreja: doc.data().igreja,
-
-                            descricao: doc.data().descricao,
-                            recebeu_ticket: doc.data().recebeu_ticket
-                        });
-                    });
-                    setListaDeCompradores(lista);
-
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-
-        })()
-    }, [])
 
 
     const { register, handleSubmit, reset } = useForm();
-
+    /*
     async function handlePesquisar(data: any) {
         const Ref = query(CompradoresRef, orderBy('nome', 'asc'))
         await getDocs(Ref)
@@ -93,53 +76,15 @@ export default function lista_compradores() {
             .catch((err) => {
                 console.error(err);
             })
-
-
     }
+    */
 
-
-    async function fazerTiket(id: string) {
-        const docRef = doc(db, "compradores", id);
-        await updateDoc(docRef, {
-            recebeu_ticket: true
-        })
-            .then((res) => {
-                // Filtra o comprador pelo ID
-                const usuarioIndex = listaDeCompradores.findIndex((dados) => dados.id === id);
-
-                if (usuarioIndex !== -1) {
-                    // Cria um novo objeto com as informações do usuário e altera a propriedade 'recebeu_ticket'
-                    const usuarioAtualizado = {
-                        ...listaDeCompradores[usuarioIndex],
-                        recebeu_ticket: true
-                    };
-
-                    // Atualiza o array de compradores com o novo objeto modificado
-                    const novaListaDeCompradores = [
-                        ...listaDeCompradores.slice(0, usuarioIndex),
-                        usuarioAtualizado,
-                        ...listaDeCompradores.slice(usuarioIndex + 1)
-                    ];
-
-                    // Atualiza a lista de compradores
-                    setListaDeCompradores(novaListaDeCompradores);
-                    toast.success('Ticket feito')
-                } else {
-                    toast.error("Usuário não encontrado");
-                }
-
-            })
-            .catch((err) => {
-                console.log(err);
-                toast.error('Algo deu errado')
-            })
-    }
 
     return (
         <section className={styled.container}>
             <h1>Lista de compradores</h1>
 
-            <form className={styled.ContainerBuscador} onSubmit={handleSubmit(handlePesquisar)}>
+            <form className={styled.ContainerBuscador}>
                 <input
                     type="text"
                     placeholder='Digite o codigo'
@@ -154,7 +99,7 @@ export default function lista_compradores() {
 
             </form>
             
-            {listaDeCompradores?.map((item: ListaInformacoesType) => {
+            {data?.map((item: ListaInformacoesType) => {
                 return (
                     <article key={item.id}
                         style={{
@@ -202,7 +147,7 @@ export default function lista_compradores() {
                                     {item.descricao}
                                 </p>
                                 {!item.recebeu_ticket && (
-                                    <button onClick={() => fazerTiket(item.id)}>Ticket</button>
+                                    <button>Ticket</button>
                                 )}
                             </div>
                         )}

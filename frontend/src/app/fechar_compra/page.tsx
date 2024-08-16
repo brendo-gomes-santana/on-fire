@@ -52,7 +52,7 @@ export default function Fechar_comprar() {
 
 
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_ROUTER_API}/v1/pagamento`, body);
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_ROUTER_API}/pagamento`, body);
 
             //FUTURAMENTE - COLOCO qr_code_base64\
 
