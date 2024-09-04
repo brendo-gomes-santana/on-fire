@@ -110,3 +110,19 @@
         }
     }
 }
+
+.descricao{
+    h2{
+        text-align: center;
+    }
+    
+    h2, h3{
+        color: rgb(242, 92, 5);
+        margin-top: 1em;
+    }
+
+    P{
+        color: #828282;
+        text-align: justify;
+    }
+}
