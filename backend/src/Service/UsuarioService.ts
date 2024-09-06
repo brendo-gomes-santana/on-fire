@@ -20,7 +20,7 @@ class UsuarioService {
             throw new Error('preenchar as informações')
         }
 
-        const usuarioExist = await prismaClient.usuario.findUnique({
+        const usuarioExist = await prismaClient.usuario.findFirst({
             where: {
                 email: email
             }

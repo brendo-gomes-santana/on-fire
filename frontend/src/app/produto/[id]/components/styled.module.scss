@@ -1,0 +1,59 @@
+.ContainerValores{
+    display: flex;
+
+    div{
+       
+        min-height: 10vh;
+
+        p{
+            font-size: 50px;
+        }
+
+        span{
+            position: absolute;
+            bottom: 0;
+
+            color: #828282;
+        }
+
+        &:first-child{
+            flex: 1;
+            position: relative;
+        }
+    }
+
+    @media (max-width: 450px){
+        div{
+            p{
+                font-size: 30px;
+                text-align: center;
+            }
+
+            span {
+                font-size: 15px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+.containerButton {
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    button {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+
+        color: #fff;
+        background-color:rgb(248, 115, 37);
+
+        border: none;
+        border-radius: 13px;
+        font-weight: bold;
+    }
+}
