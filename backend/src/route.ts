@@ -19,6 +19,8 @@ route.post('/session', new UsuarioController().session);
 
 route.use(Auth) //AS ROTAS ABAIXO SOMENTE QUEM TEM PERMISSÃO
 
+
+
 // USUARIO
 route.post('/usuario', new UsuarioController().create);
 route.get('/compradores', new CompradoresController().show);
