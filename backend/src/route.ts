@@ -13,7 +13,7 @@ const route = Router();
 // modelo de pagamento
 route.post('/pagamento', new PagamentoController().pagar);
 route.post('/notificacao', new NotificacaoController().show);
-route.get('/relatorio', new GerarRelatorioController().handle);
+route.get('/relatorio/:lote', new GerarRelatorioController().handle);
 
 //Logando Usuario
 route.post('/session', new UsuarioController().session);

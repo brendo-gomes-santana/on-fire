@@ -1,11 +1,20 @@
-import PdfPrinter from "pdfmake";
+
 import prismaClient from "../config";
 
 
 class GerarRelatorioService {
-    async execute() {
+    async execute(lote: string) {
 
-        const lista = await prismaClient.compradores.findMany();
+        const lista = await prismaClient.compradores.findMany({
+            orderBy: {
+                nome: "asc"
+            },
+            where: {
+                descricao: {
+                    endsWith: lote
+                }
+            }
+        });
 
         return lista
     }

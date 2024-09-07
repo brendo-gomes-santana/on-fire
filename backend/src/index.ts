@@ -1,5 +1,5 @@
 import 'express-async-errors';
-
+import path from 'path';
 import express, { Response, Request, NextFunction } from 'express';
 import cors from 'cors';
 
@@ -9,6 +9,10 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+app.use('/imagem',
+    express.static(path.resolve(__dirname, 'assets'))
+)
 
 app.use('/v1', route);
 

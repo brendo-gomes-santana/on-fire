@@ -5,10 +5,17 @@ import { GerarRelatorioService } from "../Service/GerarRelatorioService";
 import { TDocumentDefinitions } from "pdfmake/interfaces";
 import PdfPrinter from "pdfmake";
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 class GerarRelatorioController {
     async handle(req: Request, res: Response) {
-        const init = new GerarRelatorioService();
-        const compradores = await init.execute();
+
+
+        const lote = req.params.lote as string
+        const init = new GerarRelatorioService()
+
+        const compradores = await init.execute(lote);
 
         const print = new PdfPrinter({
             Helvetica: {
@@ -33,15 +40,14 @@ class GerarRelatorioController {
             body.push(rows);
         }
 
-        // Carregar a imagem
-        const logoPath = path.resolve(__dirname, '../assets/logo.png');
-        const logoBase64 = fs.readFileSync(logoPath, 'base64');
+        const logoPath = path.resolve(__dirname, '..', 'assets', 'logo.png');
+        const logoBase64 = fs.readFileSync(logoPath, 'base64'); 
         
         const docDefinitions: TDocumentDefinitions = {
             defaultStyle: { font: "Helvetica" },
             content: [
                 {
-                    image: `data:image/png;base64,${logoBase64}`, // Usando base64 para a imagem
+                    image: `data:image/png;base64, ${logoBase64}`, // Usando base64 para a imagem
                     width: 50,
                     height: 50,
                     alignment: "center",
@@ -52,6 +58,9 @@ class GerarRelatorioController {
                         { text: "Relatório de vendas", style: "header" },
                         { text: `${new Date()}`, style: "horario" }
                     ]
+                },
+                {
+                    text: `Relatório baseado no ${lote} de vendas de pulseiras.`, style: "descricao"
                 },
                 {
                     table: {
@@ -83,6 +92,9 @@ class GerarRelatorioController {
                     fillColor: "#121212",
                     color: "#fff",
                     alignment: "center",
+                },
+                descricao: {
+                    marginBottom: 10
                 }
             }
         };
