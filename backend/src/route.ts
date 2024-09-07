@@ -25,6 +25,8 @@ route.get('/compradores', new CompradoresController().show);
 route.patch('/compradores/:id_comprador', new CompradoresController().ticketTrue);
 
 
+
+
 export { 
     route
 }
