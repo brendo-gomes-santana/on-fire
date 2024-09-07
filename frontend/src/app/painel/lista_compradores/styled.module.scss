@@ -23,6 +23,15 @@
             margin: 0.5em;
         }
     }
+    select {
+        border-radius: 13px;
+        border: none;
+        height: 50px;
+        padding: 1em;
+        width: 100%;
+        max-width: 410px;
+        outline: none; 
+    }
 
     button{
         margin: 0 0.5em;

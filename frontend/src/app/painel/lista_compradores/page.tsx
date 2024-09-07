@@ -30,6 +30,7 @@ export default function lista_compradores() {
     }))
 
     const { register, handleSubmit, reset } = useForm();
+    const { register: registerPDf, handleSubmit: handleSubmitDPF } = useForm();
 
     async function handlePesquisar(data: any) {
 
@@ -62,6 +63,10 @@ export default function lista_compradores() {
     })
 
 
+    function handleGerarDPF(data: any){
+        window.location.href = `${process.env.NEXT_PUBLIC_ROUTER_API}/relatorio?lote=${data.lote}`
+    }
+
     return (
         <section className={styled.container}>
             <h1>Lista de compradores</h1>
@@ -80,9 +85,21 @@ export default function lista_compradores() {
                 <button type='submit'>Pesquisar</button>
 
             </form>
+            
+            <form onSubmit={handleSubmitDPF(handleGerarDPF)} className={styled.ContainerBuscador}>
+                <select {...registerPDf('lote')}>
+                    <option value="">Selecione o lote</option>
+                    <option value="1° lote">1° lote</option>
+                    <option value="2° lote">2° lote</option>
+                </select>
+                <button type='submit'>Gerar PDF</button>
+            </form>
+
             {DataCompradores?.length === 0 && (
                 <span>Ninguem comprou ainda ...</span>
             )}
+
+
             {DataCompradores?.map((item: ListaInformacoesType) => {
                 return (
                     <article key={item.id}
