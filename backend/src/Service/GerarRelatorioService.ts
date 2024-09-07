@@ -3,7 +3,7 @@ import prismaClient from "../config";
 
 
 class GerarRelatorioService {
-    async execute(lote: string) {
+    async execute(lote?: string) {
 
         const lista = await prismaClient.compradores.findMany({
             orderBy: {

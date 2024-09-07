@@ -12,10 +12,12 @@ class GerarRelatorioController {
     async handle(req: Request, res: Response) {
 
 
-        const lote = req.params.lote as string
-        const init = new GerarRelatorioService()
-
+        const lote = req.query.lote as string | undefined
+        const init = new GerarRelatorioService();
+        console.log(lote)
         const compradores = await init.execute(lote);
+
+        console.log(compradores);
 
         const print = new PdfPrinter({
             Helvetica: {
