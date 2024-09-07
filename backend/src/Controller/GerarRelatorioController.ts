@@ -12,12 +12,10 @@ class GerarRelatorioController {
     async handle(req: Request, res: Response) {
 
 
-        const lote = req.query.lote as string | undefined
+        const lote = req.query.lote as string
         const init = new GerarRelatorioService();
-        console.log(lote)
-        const compradores = await init.execute(lote);
 
-        console.log(compradores);
+        const compradores = await init.execute(lote);
 
         const print = new PdfPrinter({
             Helvetica: {
@@ -36,8 +34,8 @@ class GerarRelatorioController {
             rows.push(`${comprador.email}\n${comprador.contato}`);
             rows.push(comprador.descricao);
             rows.push(`R$ ${comprador.valor}`);
-            rows.push(comprador.nome_lider);
-            rows.push(comprador.igreja);
+            rows.push(!comprador.nome_lider ? "-" : comprador.nome_lider);
+            rows.push(!comprador.igreja ? "-" : comprador.igreja);
 
             body.push(rows);
         }
@@ -62,7 +60,7 @@ class GerarRelatorioController {
                     ]
                 },
                 {
-                    text: `Relatório baseado no ${lote} de vendas de pulseiras.`, style: "descricao"
+                    text: lote  ? `Relatório baseado no ${lote} de vendas de pulseiras.` : '' , style: "descricao" 
                 },
                 {
                     table: {
