@@ -6,14 +6,14 @@ import { PagamentoController } from "./Controller/PagamentoController";
 import { NotificacaoController } from "./Controller/NotificacaoController";
 import { UsuarioController } from "./Controller/UsuarioController";
 import { CompradoresController } from "./Controller/CompradoresController";
-
+import { GerarRelatorioController } from "./Controller/GerarRelatorioController";
 const route = Router();
 
 
 // modelo de pagamento
 route.post('/pagamento', new PagamentoController().pagar);
 route.post('/notificacao', new NotificacaoController().show);
-
+route.get('/relatorio', new GerarRelatorioController().handle);
 //Logando Usuario
 route.post('/session', new UsuarioController().session);
 
