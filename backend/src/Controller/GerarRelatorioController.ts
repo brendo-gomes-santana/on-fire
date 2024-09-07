@@ -40,7 +40,7 @@ class GerarRelatorioController {
             body.push(rows);
         }
 
-        const logoPath = path.resolve(__dirname, '..', 'assets', 'logo.png');
+        const logoPath = path.resolve(__dirname, '..', '..', 'assets', 'logo.png');
         const logoBase64 = fs.readFileSync(logoPath, 'base64'); 
         
         const docDefinitions: TDocumentDefinitions = {
