@@ -6,7 +6,7 @@ import { createContext, ReactNode, useState, useEffect, use } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { LoginUserProps, InformacoesUser } from "@/utils/types/Auth";
 import { ContextAuth } from "@/utils/types/Auth";
-
+import { toast } from "react-toastify";
 import api from "@/config";
 
 const client = new QueryClient();
@@ -57,8 +57,9 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 
             setLogado(true);
             router.push('/painel');
-        } catch (err) {
+        } catch (err: any) {
             console.log(err);
+            toast.error(err.response.data.error)
             setLogado(false);
         }
     }

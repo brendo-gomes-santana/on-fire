@@ -33,20 +33,21 @@ export default function lista_compradores() {
 
     async function handlePesquisar(data: any) {
 
-        if (!data.id && !data.nome) {
+        if (!data.codigo && !data.nome) {
             refetch();
-            return
+            return;
         }
+
         const usuario = DataCompradores?.filter((dados: ListaInformacoesType) => {
-            const filtraPorCodigo = data.codigo ? dados.id.startsWith(data.codigo) : true;
+            const filtraPorCodigo = data.codigo ? String(dados.id).startsWith(String(data.codigo)) : true;
             const filtraPorNome = data.nome ? dados.nome.startsWith(data.nome) : true;
             return filtraPorCodigo && filtraPorNome;
         });
 
-        queryClient.setQueriesData("compradores", usuario)
+        queryClient.setQueriesData("compradores", usuario);
         reset();
-
     }
+
 
     const mutation = useMutation({
         mutationFn: ({ id_comprador }: { id_comprador: string }) => {
@@ -55,11 +56,10 @@ export default function lista_compradores() {
                 .catch((err) => err);
         },
         onSuccess: (data) => {
-            queryClient.setQueryData("compradores", (currentData: any) => currentData.map((todos:ListaInformacoesType) => todos.id === data.id ? data : todos))
+            toast.success(`Ticket feito com sucesso`);
+            queryClient.setQueryData("compradores", (currentData: any) => currentData.map((todos: ListaInformacoesType) => todos.id === data.id ? data : todos))
         }
     })
-
-
 
 
     return (
@@ -77,7 +77,7 @@ export default function lista_compradores() {
                     placeholder='Digite o nome'
                     {...register('nome')}
                 />
-                <button>Pesquisar</button>
+                <button type='submit'>Pesquisar</button>
 
             </form>
             {DataCompradores?.length === 0 && (
@@ -131,11 +131,11 @@ export default function lista_compradores() {
                                     {item.descricao}
                                 </p>
                                 {!item.recebeu_ticket && (
-                                    <button onClick={ 
+                                    <button onClick={
                                         () => {
                                             mutation.mutate({ id_comprador: item.id })
                                         }
-                                     }>Ticket</button>
+                                    }>Ticket</button>
                                 )}
                             </div>
                         )}
