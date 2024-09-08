@@ -5,8 +5,8 @@ import { InformacoesProps } from '../types/CardProps';
 export const Produtos:InformacoesProps[] = [
     {
         id: 1,
-        name: 'Pulseira Conferencia 2k24 - 1° lote',
-        value: 2020,
+        name: 'Pulseira Conferencia 2k24 - 2° lote',
+        value: 2525,
         cap: Capa,
         image: Imagem,
         name_image: 'PERFIL_02.png',
