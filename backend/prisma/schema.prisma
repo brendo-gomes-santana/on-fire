@@ -33,7 +33,9 @@ model Produtos {
   quantidade Int
 
   img String?
+  tipo String
 
+   Compradores_Produtos Compradores_Produtos[]
 
   @@map("produtos")
 }
@@ -56,7 +58,23 @@ model Compradores {
   recebeu_ticket Boolean @default(false)
   pago Boolean @default(false)
 
+  Compradores_Produtos Compradores_Produtos[]
+
   @@map("compradores")
 }
 
 
+model Compradores_Produtos{
+
+  id String @id @unique @default(uuid())
+
+  nome String?
+
+  id_comprador String
+  id_produto String
+
+  compradores Compradores @relation(fields: [id_comprador], references: [id])
+  produtos Produtos @relation(fields: [id_produto], references: [id])
+
+ @@map("compradores_produtos")
+}

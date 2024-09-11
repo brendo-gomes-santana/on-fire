@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/imagem',
-    express.static(path.resolve(__dirname, 'assets'))
+    express.static(path.resolve(__dirname, '..', 'imgs'))
 )
 
 app.use('/v1', route);
