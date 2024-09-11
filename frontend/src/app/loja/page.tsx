@@ -4,6 +4,18 @@ import Card from '@/components/Card';
 import styled from './styled.module.scss';
 
 import { Produtos } from '@/utils/Produtos';
+import api from '@/config';
+
+async function getData(tipo: string){
+    try{
+
+        const response = await api.get(`/lista/produtos?tipo=${tipo}`)
+        return response.data
+
+    }catch(err){
+        console.log(err);
+    }
+}
 
 export function generateMetadata():Metadata{
     return{
@@ -12,7 +24,12 @@ export function generateMetadata():Metadata{
 
 }
 
-export default function Loja(){
+export default async function Loja(){
+
+    const dataworkshop = await getData('workshop');
+
+    console.log(dataworkshop);
+
     return(
         <main className={styled.Container}>
             <h1>LOJA VIRTUAL</h1>
@@ -21,12 +38,25 @@ export default function Loja(){
                     return(
                         <Card
                         key={item.id}
-                        name={item.name}
+                        nome={item.nome}
                         cap={item.cap}
-                        value={item.value}
+                        valor={item.valor}
                         id={item.id}
-                        image={item.image}
+                        img={item.img}
                     />
+                    )
+                })}
+
+                {dataworkshop?.map((item: any) => {
+                    return(
+                        <Card
+                        key={item.id}
+                        nome={item.nome}
+                        cap={`${process.env.NEXT_PUBLIC_URL_IMAGEM}imagem/${item.img}`}
+                        valor={item.valor}
+                        id={item.id}
+                        img={`${process.env.NEXT_PUBLIC_URL_IMAGEM}${item.img}`}
+                    /> 
                     )
                 })}
             </section>

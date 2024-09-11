@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import desenvolvimento from '../../public/desenvolvimento.png';
 
 import styled from './styled.module.scss'
 

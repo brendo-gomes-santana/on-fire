@@ -27,7 +27,15 @@ class InscricaoWorkShopController {
 
     return res.json(inscritos);
   }
+  async detalhe(req: Request, res: Response){
 
+    const id_produto = req.query.id_produto as string
+
+    const init = new InscricaoWorkShopService();
+    const inscritos = await init.detalheProduto(id_produto)
+
+    return res.json(inscritos)
+  }
 }
 
 export {

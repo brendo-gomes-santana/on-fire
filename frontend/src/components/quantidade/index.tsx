@@ -28,9 +28,9 @@ export default function Quantidade({produto}: {
     function handleAdd(){
         AddItem({
             id: produto.id,
-            name: produto.name,
+            name: produto.nome,
             amount: quantidade,
-            value: produto.value,
+            value: produto.valor,
             link: `/produto/${produto.id}`
         })
     }
@@ -39,9 +39,9 @@ export default function Quantidade({produto}: {
     function FecharComprar(){
         AddItem({
             id: produto.id,
-            name: produto.name,
+            name: produto.nome,
             amount: quantidade,
-            value: produto.value,
+            value: produto.valor,
             link: `/produto/${produto.id}`
         })
 

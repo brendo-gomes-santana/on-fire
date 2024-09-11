@@ -6,20 +6,27 @@ import styled from "./styled.module.scss";
 import Link from "next/link";
 
 export default function Card({
-    name,
-    value,
+    nome,
+    valor,
     cap,
     id,
-    image
-}: InformacoesProps){
-    return(
+    img
+}: InformacoesProps) {
+    return (
         <article className={styled.container}>
             <Image
-                src={!cap ? image : cap}
-                alt={`Imagem do produto ${name}`}
+                src={!cap ? img : cap}
+                alt={`Imagem do produto ${nome}`}
+                width={300}
+                height={200}
+
             />
-            <Link href={`/produto/${id}`}>{name}</Link>
-            <p>R$ {formatReal(value)}</p>
+            <Link href={`/produto/${id}`}>{nome}</Link>
+            {valor === 0 ? (
+                <p>Grátis</p>
+            ) : (
+                <p>R$ {formatReal(valor)}</p>
+            )}
         </article>
     )
 }

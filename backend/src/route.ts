@@ -19,10 +19,12 @@ const upload = multer({ storage: storage });
 // modelo de pagamento
 route.post('/pagamento', new PagamentoController().pagar);
 route.post('/notificacao', new NotificacaoController().show);
+
 //SEM NECESSIDADE DE ESTÁ COM AUTH
 route.get('/relatorio', new GerarRelatorioController().handle);
 route.get('/lista/produtos', new ProdutosController().lista);
 route.post('/inscricao/workshop', new InscricaoWorkShopController().inscricao);
+route.get('/detalhe/produto', new InscricaoWorkShopController().detalhe);
 
 //Logando Usuario
 route.post('/session', new UsuarioController().session);
