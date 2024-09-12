@@ -49,8 +49,8 @@ export default function Quantidade({produto}: {
     }
 
     return (
-        <div className={styled.Containerfather}>
-            <div className={styled.Container}>
+        <div id={styled.Containerfather}>
+            <div id={styled.Container}>
                 <div>Quantidade: {quantidade}</div>
                 <select value={quantidade} onChange={handleChange}>
                     <option value={1}>1</option>

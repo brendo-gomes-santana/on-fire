@@ -13,10 +13,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Usuario {
-  id String @id @default(uuid())
-  nome String
+  id    String @id @default(uuid())
+  nome  String
   email String @unique
   senha String
 
@@ -24,57 +23,54 @@ model Usuario {
 }
 
 model Produtos {
-  id String @id @default(uuid())
-  nome String 
+  id   String @id @default(uuid())
+  nome String
 
-  valor Int
+  valor     Int
   descricao String?
 
   quantidade Int
 
-  img String?
+  img  String?
   tipo String
 
-   Compradores_Produtos Compradores_Produtos[]
+  Compradores_Produtos Compradores_Produtos[]
 
   @@map("produtos")
 }
 
-
 model Compradores {
-  id  String  @id @unique
-  nome String
+  id      String @id @unique
+  nome    String
   contato String
-  
-  visao String
+
+  visao      String
   nome_lider String?
-  igreja String?
+  igreja     String?
 
   valor Int
-    
+
   descricao String
-  email String
+  email     String
 
   recebeu_ticket Boolean @default(false)
-  pago Boolean @default(false)
+  pago           Boolean @default(false)
 
   Compradores_Produtos Compradores_Produtos[]
 
   @@map("compradores")
 }
 
-
-model Compradores_Produtos{
-
+model Compradores_Produtos {
   id String @id @unique @default(uuid())
 
   nome String?
 
   id_comprador String
-  id_produto String
+  id_produto   String
 
   compradores Compradores @relation(fields: [id_comprador], references: [id])
-  produtos Produtos @relation(fields: [id_produto], references: [id])
+  produtos    Produtos    @relation(fields: [id_produto], references: [id])
 
- @@map("compradores_produtos")
+  @@map("compradores_produtos")
 }

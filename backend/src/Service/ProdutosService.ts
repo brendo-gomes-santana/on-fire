@@ -48,7 +48,6 @@ class ProdutosService {
       console.log('Error ao listar produtos' + err);
       throw new Error('Error ao listar produtos')
     }
-
   }
 }
 

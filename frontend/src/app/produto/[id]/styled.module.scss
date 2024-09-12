@@ -80,14 +80,14 @@
        
         min-height: 10vh;
 
-        p{
+        p:first-child{
             font-size: 50px;
         }
 
-        span{
+        p:last-child {
             position: absolute;
             bottom: 0;
-
+            font-size: 15px;
             color: #828282;
         }
 
@@ -98,15 +98,18 @@
     }
 
     @media (max-width: 450px){
+        flex-direction: column;
         div{
             p{
                 font-size: 30px;
                 text-align: center;
             }
 
-            span {
+            p:last-child {
+                width: 100%;
                 font-size: 15px;
-                text-align: center;
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
     }

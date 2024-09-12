@@ -1,0 +1,36 @@
+.Container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    gap: 1em;
+
+    margin: 1em;
+
+    input, button{
+        height: 50px;
+        border: none;
+        border-radius: 13px;
+    }
+    input{
+        padding: 0 1em;
+        font-size: 17px;
+        outline: none;
+
+        border: 1px solid #F28705;
+        background: transparent;
+        color: #fff;
+    }
+
+    button{
+        background-color: #F25C05;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    @media (max-width: 450px){
+       margin: 0;
+       margin-top: 1em;
+    }
+}

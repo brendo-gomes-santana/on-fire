@@ -1,4 +1,4 @@
-.Container {
+#Container {
     position: relative;
 
     select {
@@ -39,12 +39,16 @@
         align-items: center;
         padding: 0 0.5em;
     }
+
+    @media (max-width: 450px){
+        margin-top: 1em;
+    }
 }
 
-.Containerfather {
+#Containerfather {
     display: flex;
     flex-direction: column;
-
+    
     button {
         height: 50px;
         width: 200px;
@@ -56,5 +60,11 @@
         font-size: 15px;
         font-weight: bold;
         color: #fff;
+    }
+
+    @media (max-width: 450px){
+        button {
+            width: 100%;
+        }
     }
 }
