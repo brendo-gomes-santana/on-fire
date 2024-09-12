@@ -16,6 +16,7 @@ sistema-igreja-3c4f2-firebase-adminsdk-upa6k-5389b2f887.json
 # production
 /build
 /dist
+/imgs/** 
 
 # misc
 .DS_Store
