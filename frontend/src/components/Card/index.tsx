@@ -23,7 +23,7 @@ export default function Card({
             />
             <Link href={`/produto/${id}`}>{nome}</Link>
             {valor === 0 ? (
-                <p>Grátis</p>
+                <p>Inscreva-se</p>
             ) : (
                 <p>R$ {formatReal(valor)}</p>
             )}
