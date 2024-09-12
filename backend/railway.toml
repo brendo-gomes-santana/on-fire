@@ -1,0 +1,15 @@
+[build]
+builder = "NIXPACKS"
+buildCommand = "npm install && npm run build && npx prisma migrate deploy"
+watchPatterns = ["/backend"]
+
+[deploy]
+runtime = "V2"
+numReplicas = 1
+startCommand = "npm run start"
+sleepApplication = false
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[volume]
+path = "/imgs"
