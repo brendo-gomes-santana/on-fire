@@ -6,7 +6,7 @@ class CompradoresService{
 
 
     async lista(): Promise <Error |TypeRetornoDBUSER[]> {
-
+        // testando
         try{
 
             const lista = await prismaClient.compradores.findMany();
