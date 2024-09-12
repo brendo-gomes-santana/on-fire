@@ -9,8 +9,8 @@ import api from '@/config';
 async function getData(tipo: string){
     try{
 
-        const response = await api.get(`/lista/produtos?tipo=${tipo}`)
-        return response.data
+        const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTER_API}/lista/produtos?tipo=${tipo}`, { cache: 'no-store' } )
+        return response.json()
 
     }catch(err){
         console.log(err);

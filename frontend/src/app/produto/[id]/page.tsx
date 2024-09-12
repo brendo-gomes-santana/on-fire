@@ -30,11 +30,12 @@ export async function generateMetadata({ params }: { params: { id: string | numb
 
     } else {
         try {
-            const response = await api.get(`/detalhe/produto?id_produto=${params.id}`)
-            const data = response.data
+            const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTER_API}/detalhe/produto?id_produto=${params.id}`, { cache: 'no-store' })
+            .then(res => res.json())
+
             return {
-                title: `On fire | ${data?.nome}`,
-                description: produto?.nome,
+                title: `On fire | ${response?.nome}`,
+                description: response?.nome,
                 keywords: ['onfire', 'miammu', 'workshop', 'comprar', 'online'],
                 robots: {
                   index: true,
@@ -48,7 +49,7 @@ export async function generateMetadata({ params }: { params: { id: string | numb
                 },
                 openGraph: {
                     title: produto?.nome,
-                    images: [`${process.env.NEXT_PUBLIC_URL_IMAGEM}imagem/${data.img}`]
+                    images: [`${process.env.NEXT_PUBLIC_URL_IMAGEM}imagem/${response.img}`]
                 }
             }
         } catch (err) {
@@ -78,8 +79,9 @@ async function getProduto(id: string | number): Promise<any> {
 
     } else {
         try {
-            const response = await api.get(`/detalhe/produto?id_produto=${id}`)
-            return response.data
+            const response = await fetch(`${process.env.NEXT_PUBLIC_ROUTER_API}/detalhe/produto?id_produto=${id}`, { cache: 'no-store' })
+            return response.json()
+
         } catch (err) {
             console.log(err);
             return null
