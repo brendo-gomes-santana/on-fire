@@ -5,7 +5,11 @@ const nextConfig = {
           {
               protocol: "http",
               hostname: "localhost"
-          }
+          },
+          {
+            protocol: "https",
+            hostname: "on-fire-production.up.railway.app"
+        }
       ]
   }
 };
