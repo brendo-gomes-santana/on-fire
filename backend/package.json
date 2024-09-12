@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
     "build": "tsc",
-    "mkdir": "if not exist imgs mkdir imgs",
     "start": "sucrase-node build/index.js"
   },
   "author": "Brendo Gomes Santana",
