@@ -99,7 +99,7 @@ export default async function Produto({ params }: { params: { id: string } }) {
     return (
         <section className={styled.container}>
             <article className={styled.ContainerInformacoes}>
-                <Image src={produto.site ? (produto.img) : `${process.env.NEXT_PUBLIC_URL_IMAGEM}imagem/${produto.img}`} alt="testando" height={400} width={500} />
+                <Image src={produto.site ? (produto.img) : `${process.env.NEXT_PUBLIC_URL_IMAGEM}imagem/${produto.img}`} alt="testando" height={400} width={500} unoptimized/>
                 <div className={styled.Informacoes}>
                     <h1>{produto?.nome}</h1>
                     <h2>Código do produto: {params.id}</h2>

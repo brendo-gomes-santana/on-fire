@@ -19,7 +19,7 @@ export default function Card({
                 alt={`Imagem do produto ${nome}`}
                 width={300}
                 height={200}
-
+                unoptimized
             />
             <Link href={`/produto/${id}`}>{nome}</Link>
             {valor === 0 ? (
