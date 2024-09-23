@@ -25,6 +25,7 @@ route.get('/relatorio', new GerarRelatorioController().handle);
 route.get('/lista/produtos', new ProdutosController().lista);
 route.post('/inscricao/workshop', new InscricaoWorkShopController().inscricao);
 route.get('/detalhe/produto', new InscricaoWorkShopController().detalhe);
+route.get('/inscritos/workshop', new InscricaoWorkShopController().listaDeInscrito);
 
 //Logando Usuario
 route.post('/session', new UsuarioController().session);

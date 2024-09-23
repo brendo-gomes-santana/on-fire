@@ -116,6 +116,41 @@ class InscricaoWorkShopService {
       throw new Error('Produto não existe')
     }
   }
+
+  async listaDeInscritos(id_produto: string){
+
+    const produto = await prismaClient.produtos.findUnique({
+      where: {
+        id: id_produto
+      }
+    })
+
+    try{
+
+
+      const lista = await prismaClient.compradores_Produtos.findMany({
+        where: {
+          id_produto
+        },
+        select: {
+          nome: true
+        },
+        orderBy: {
+          nome: 'asc'
+        }
+      })
+      
+      return {
+        nome: produto?.nome,
+        data: lista
+      }
+
+    }catch(err){
+      console.log('Erro ao lista produtos' + err);
+      throw new Error('Deu erro')
+    }
+
+  }
 }
 
 export {

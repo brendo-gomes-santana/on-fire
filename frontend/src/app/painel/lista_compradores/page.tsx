@@ -63,9 +63,11 @@ export default function lista_compradores() {
     })
 
 
-    function handleGerarDPF(data: any){
+    function handleGerarDPF(data: any) {
         window.location.href = `${process.env.NEXT_PUBLIC_ROUTER_API}/relatorio?lote=${data.lote}`
     }
+
+    console.log(DataCompradores)
 
     return (
         <section className={styled.container}>
@@ -85,7 +87,7 @@ export default function lista_compradores() {
                 <button type='submit'>Pesquisar</button>
 
             </form>
-            
+
             <form onSubmit={handleSubmitDPF(handleGerarDPF)} className={styled.ContainerBuscador}>
                 <select {...registerPDf('lote')}>
                     <option value="">Selecione o lote</option>
@@ -99,6 +101,19 @@ export default function lista_compradores() {
                 <span>Ninguem comprou ainda ...</span>
             )}
 
+            <p style={{
+                color: '#fff',
+                marginBottom: '1em'
+            }}>
+                Quantidade de pulseira vendidas: {' '} 
+                {
+                    DataCompradores?.reduce((acumulador, current) => {
+                        const match = current.descricao.match(/\d+/); 
+                        const numero = match ? Number(match[0]) : 0; 
+                        return acumulador + numero;
+                    }, 0)
+                }
+            </p>
 
             {DataCompradores?.map((item: ListaInformacoesType) => {
                 return (
