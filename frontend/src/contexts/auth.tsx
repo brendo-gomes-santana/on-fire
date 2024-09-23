@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { createContext, ReactNode, useState, useEffect, use } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { LoginUserProps, InformacoesUser } from "@/utils/types/Auth";
+import Carregando from '@/components/carregando';
 import { ContextAuth } from "@/utils/types/Auth";
 import { toast } from "react-toastify";
 import api from "@/config";
@@ -73,11 +74,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     }
     
     if (carregando) {
-        return (
-            <div>
-                Carregando...
-            </div>
-        )
+        return <Carregando/>
     }
 
     return (

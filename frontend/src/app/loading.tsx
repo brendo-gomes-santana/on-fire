@@ -1,7 +1,9 @@
+import styled from './styled.module.scss';
+
 export default function Loading(){
     return(
-        <main>
-            <h1>Carregando Informações</h1>
+        <main className={styled.carregando}>
+            <span></span>
         </main>
     )
 }
