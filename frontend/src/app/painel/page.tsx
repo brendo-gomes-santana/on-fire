@@ -16,7 +16,7 @@ export default function painel(){
 
             <article className={styled.navegacao}>
                 <Link href="/painel/lista_compradores">Listar compradores</Link>
-                <Link href="">Listar produtos</Link>
+                <Link href="/painel/lista_produtos">Listar produtos</Link>
                 <Link href="">Cadastrar produtos</Link>
             </article>
 
