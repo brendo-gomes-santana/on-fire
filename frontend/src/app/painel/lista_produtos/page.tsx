@@ -26,7 +26,7 @@ export default async function ListaProdutos() {
         Lista de produtos
       </h1>
       <section>
-        {data.map((item: any) => {
+        {data?.map((item: any) => {
           return(
             <Lista_de_produtos item={item} key={item.id}/>
           )
