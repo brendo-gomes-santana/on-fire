@@ -28,7 +28,7 @@ export default async function Loja(){
 
     const dataworkshop = await getData('workshop');
 
-    console.log(dataworkshop);
+    
 
     return(
         <main className={styled.Container}>
