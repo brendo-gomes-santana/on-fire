@@ -14,6 +14,8 @@ import { ListaInformacoesType } from '@/utils/types/ListaCompradoresProps';
 
 export default function lista_compradores() {
     const [abertoInfor, setAbertoInfor] = useState<string>('');
+    const [abrirCamp, setAbrirCamp] = useState<boolean>(true);
+
     const queryClient = useQueryClient();
 
     const { user } = useContext(authContext);
@@ -49,7 +51,6 @@ export default function lista_compradores() {
         reset();
     }
 
-
     const mutation = useMutation({
         mutationFn: ({ id_comprador }: { id_comprador: string }) => {
             return api.patch(`/compradores/${id_comprador}?id_usuario=${user?.id}`)
@@ -67,7 +68,6 @@ export default function lista_compradores() {
         window.location.href = `${process.env.NEXT_PUBLIC_ROUTER_API}/relatorio?lote=${data.lote}`
     }
 
-    console.log(DataCompradores)
 
     return (
         <section className={styled.container}>
@@ -105,74 +105,78 @@ export default function lista_compradores() {
                 color: '#fff',
                 marginBottom: '1em'
             }}>
-                Quantidade de pulseira vendidas: {' '} 
+                Quantidade de pulseira vendidas: {' '}
                 {
                     DataCompradores?.reduce((acumulador, current) => {
-                        const match = current.descricao.match(/\d+/); 
-                        const numero = match ? Number(match[0]) : 0; 
+                        const match = current.descricao.match(/\d+/);
+                        const numero = match ? Number(match[0]) : 0;
                         return acumulador + numero;
                     }, 0)
                 }
             </p>
-
+            <button onClick={() => setAbrirCamp(!abrirCamp)} id={styled.buttonTroca}>{
+                abrirCamp ? 'Não fez o ticket' : 'Já fez o ticket'
+            }</button>
             {DataCompradores?.map((item: ListaInformacoesType) => {
-                return (
-                    <article key={item.id}
-                        style={{
-                            marginBottom: '1em'
-                        }}
-                    >
-                        <div className={styled.InformacoesIniciais}>
-                            <button
-                                onClick={() => setAbertoInfor(abertoInfor === item.id ? '' : item.id)}
-                            >
-                                {item.nome}
-                                {abertoInfor === item.id ? (
-                                    <IoIosArrowDown size={20} />
-                                ) : (
-                                    <IoIosArrowUp size={20} />
-                                )}
-                            </button>
-                            <span style={{
-                                backgroundColor: item.pago ? '#75F55D' : '#F54D47'
-                            }}>
-                                {item.pago ? 'Pago' : 'Pedente'}
-                            </span>
-                            <span style={{
-                                backgroundColor: item.recebeu_ticket ? '#75F55D' : '#F54D47'
-                            }}>
-                                Ticket
-                            </span>
-                        </div>
-                        {abertoInfor === item.id && (
-                            <div className={styled.InformacoesAdicionais}>
-                                <p>
-                                    <strong>Contato: </strong>
-                                    {item.contato}
-                                </p>
-                                <p>
-                                    <strong>Nome do líder: </strong>
-                                    {item.nome_lider}
-                                </p>
-                                <p>
-                                    <strong>Qual igreja: </strong>
-                                    {item.igreja}
-                                </p>
-                                <p>
-                                    <strong>Descrição: </strong>
-                                    {item.descricao}
-                                </p>
-                                {!item.recebeu_ticket && (
-                                    <button onClick={
-                                        () => {
-                                            mutation.mutate({ id_comprador: item.id })
-                                        }
-                                    }>Ticket</button>
-                                )}
+                if (abrirCamp ? !item.recebeu_ticket : item.recebeu_ticket) {
+                    return (
+                        <article key={item.id}
+                            style={{
+                                marginBottom: '1em'
+                            }}
+                        >
+                            <div className={styled.InformacoesIniciais}>
+                                <button
+                                    onClick={() => setAbertoInfor(abertoInfor === item.id ? '' : item.id)}
+                                >
+                                    {item.nome}
+                                    {abertoInfor === item.id ? (
+                                        <IoIosArrowDown size={20} />
+                                    ) : (
+                                        <IoIosArrowUp size={20} />
+                                    )}
+                                </button>
+                                <span style={{
+                                    backgroundColor: item.pago ? '#75F55D' : '#F54D47'
+                                }}>
+                                    {item.pago ? 'Pago' : 'Pedente'}
+                                </span>
+                                <span style={{
+                                    backgroundColor: item.recebeu_ticket ? '#75F55D' : '#F54D47'
+                                }}>
+                                    Ticket
+                                </span>
                             </div>
-                        )}
-                    </article>
-                )
+                            {abertoInfor === item.id && (
+                                <div className={styled.InformacoesAdicionais}>
+                                    <p>
+                                        <strong>Contato: </strong>
+                                        {item.contato}
+                                    </p>
+                                    <p>
+                                        <strong>Nome do líder: </strong>
+                                        {item.nome_lider}
+                                    </p>
+                                    <p>
+                                        <strong>Qual igreja: </strong>
+                                        {item.igreja}
+                                    </p>
+                                    <p>
+                                        <strong>Descrição: </strong>
+                                        {item.descricao}
+                                    </p>
+                                    {!item.recebeu_ticket && (
+                                        <button onClick={
+                                            () => {
+                                                mutation.mutate({ id_comprador: item.id })
+                                            }
+                                        }>Ticket</button>
+                                    )}
+                                </div>
+                            )}
+                        </article>
+                    )
+                }
             })}
 
         </section>

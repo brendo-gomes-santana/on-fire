@@ -9,7 +9,11 @@ class CompradoresService{
 
         try{
 
-            const lista = await prismaClient.compradores.findMany();
+            const lista = await prismaClient.compradores.findMany({
+                orderBy: {
+                    nome: 'asc'
+                }
+            });
             return lista as TypeRetornoDBUSER[]
 
         }catch(err){
